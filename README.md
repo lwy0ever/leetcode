@@ -1,2 +1,2 @@
-# hackerrank
-hackerrank python python3
+# leetcode
+leetcode python python3 leetcode-cn
