@@ -1,32 +1,30 @@
-from collections import Counter
 class Solution:
     def findSubstring(self, s: str, words: List[str]) -> List[int]:
-        n = len(words)
-        if n == 0: return []
-        l = len(words[0])
-        wdd = Counter(words)
+        from collections import Counter
         ans = []
-        #for w in words:
-        #    wdd[w] += 1
-        ns = len(s)
-        for i in range(l):
-            cnt = 0
-            sdd = Counter()
-            left = i
-            right = i
-            while right + l <= ns:
-            #for j in range(i,ns,l):
-                sw = s[right:right+l]
-                #print(sw)
-                sdd[sw] += 1
-                cnt += 1
-                while sdd[sw] > wdd[sw]:
-                    lw = s[left:left+l]
-                    left += l
-                    sdd[lw] -= 1
-                    cnt -= 1
-                right += l
-                #print(wdd,sdd)
-                if cnt == n:
-                    ans.append(left)
+        if not s or not words:
+            return ans
+        wlen = len(words[0])
+        slen = len(s)
+        n = len(words)
+        ws = Counter(words)
+        # 滑动窗口,长度n,有wlen个起点(0到wlen - 1)
+        for i in range(wlen):
+            l = i   # 窗口左端
+            r = i   # 窗口右端
+            wnum = 0
+            cnt = Counter() # 统计窗口内的word数量
+            while r + wlen <= slen:
+                w = s[r:r + wlen]   # 右移窗口
+                r += wlen
+                cnt[w] += 1 # 窗口内单词增加
+                wnum += 1
+                while cnt[w] > ws[w]:   # 新增加的单词是否需要
+                    nw = s[l:l + wlen]  # 不需要,则左移窗口,尝试移除word,直到多余的word被移除
+                    cnt[nw] -= 1
+                    wnum -= 1
+                    l += wlen
+                if wnum == n:
+                    ans.append(l)
+                #print(i,cnt,l,r)
         return ans
