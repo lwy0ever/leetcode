@@ -32,4 +32,3 @@ class Solution:
             l = ListNode(r[0])
             l.next = preL
         return l
-            

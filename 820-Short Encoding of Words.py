@@ -1,22 +1,14 @@
 class Solution:
     def minimumLengthEncoding(self, words: List[str]) -> int:
-        d = {}
-        for w in words:
-            t = d
-            for c in w[::-1]:
-                if c not in t:
-                    t[c] = {}
-                t = t[c]
+        words.sort(key = lambda x:-len(x))
         ans = 0
-        def dfs(d,l):
-            if not d:
-                nonlocal ans
-                ans += l
-                return
-            for k in d.keys():
-                dfs(d[k],l + 1)
-        
-        #print(d)
-        for k in d.keys():
-            dfs(d[k],2) #末位 + #,所以是2位
+        es = set()
+        for w in words:
+            if w in es:
+                continue
+            for i in range(len(w)):
+                if w[i:] in es:
+                    break
+                es.add(w[i:])
+            ans += len(w) + 1
         return ans

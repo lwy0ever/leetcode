@@ -1,28 +1,27 @@
 class Solution:
     def maxDistance(self, grid: List[List[int]]) -> int:
-        land = []
-        counter = 0
-        dis = 0
         n = len(grid)
+        m = len(grid[0])
+        # 从所有的1开始，bfs找到最远的0
+        #visited = set()
+        fromP = set()
         for i in range(n):
-            for j in range(n):
+            for j in range(m):
                 if grid[i][j] == 1:
-                    land.append((i,j))
-                    counter += 1
-        if counter == 0 or counter == n * n:
-            return -1
-        direct = [(-1,0),(1,0),(0,1),(0,-1)]
-        dis = 0
-        while counter < n * n:
-            newLand = []
-            for l in land:
-                for d in direct:
-                    p = (l[0] + d[0],l[1] + d[1])
-                    if p[0] >= 0 and p[0] < n and p[1] >=0 and p[1] < n:
-                        if grid[p[0]][p[1]] == 0:
-                            newLand.append(p)
-                            grid[p[0]][p[1]] = 1
-                            counter += 1
-            land = newLand
-            dis += 1
-        return dis
+                    fromP.add((i,j))
+                    #visited.add((i,j))
+        ans = -1
+        di = [(-1,0),(1,0),(0,-1),(0,1)]
+        # bfs
+        while fromP:
+            toP = set()
+            for fx,fy in fromP:
+                for dx,dy in di:
+                    if 0 <= fx + dx < n and 0 <= fy + dy < m:
+                        if grid[fx + dx][fy + dy] == 0:
+                            toP.add((fx + dx,fy + dy))
+                            grid[fx + dx][fy + dy] = 1
+                            #visited.add((fx + dx,fy + dy))
+            fromP = toP
+            ans += 1
+        return ans if ans > 0 else -1

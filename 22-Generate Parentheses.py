@@ -1,14 +1,16 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
-        ans = []
-        def gP(s,l,r,n):
-            if l == n and r == l:
-                ans.append(s)
-                return
-            if l < n:
-                gP(s + '(',l + 1,r,n)
-            if r < l:
-                gP(s + ')',l,r + 1,n)
+        def helper(s,needed,left,right):
+            if needed == left:
+                if needed == right:
+                    ans.append(s)
+                else:
+                    helper(s + ')',needed,left,right + 1)
+            elif needed > left:
+                helper(s + '(',needed,left + 1,right)
+                if left > right:
+                    helper(s + ')',needed,left,right + 1)
 
-        gP('(',1,0,n)
-        return ans        
+        ans = []
+        helper('',n,0,0)
+        return ans
