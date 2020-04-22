@@ -4,12 +4,12 @@ class Solution:
             return []
         intervals.sort(key = lambda x:x[0])
         ans = []
-        t = intervals[0]
-        for s,e in intervals:
-            if s <= t[1]:
-                t[1] = max(t[1],e)
+        pre = intervals[0]
+        for s,e in intervals[1:]:
+            if s <= pre[1]:
+                pre[1] = max(pre[1],e)
             else:
-                ans.append(t)
-                t = [s,e]
-        ans.append(t)
+                ans.append(pre)
+                pre = [s,e]
+        ans.append(pre)
         return ans
