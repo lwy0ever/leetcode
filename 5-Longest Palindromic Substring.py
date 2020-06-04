@@ -1,13 +1,21 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
+        # 从中间向两边扩展
+        def extend(s,l,r):
+            while l >= 0 and r < len(s) and s[l] == s[r]:
+                l -= 1
+                r += 1
+            return l + 1,r - 1
+
+        # 从中间向两边扩展
+        ansL,ansR = 0,0
         n = len(s)
-        if n <= 1:
-            return s
-        l = n // 2
-        for i in range(l,-1,-1):
-            for p in range(0,n - i * 2):
-                if s[p:p + i] == s[p + i * 2:p + i:-1]:
-                    return s[p:p + i * 2 + 1]
-            for p in range(0,n - i * 2 + 1):
-                if s[p:p + i] == s[p + i * 2 - 1:p + i - 1:-1]:
-                    return s[p:p + i * 2]
+        for i in range(n):
+            # 选定中间位置
+            l,r = extend(s,i,i)
+            if r - l > ansR - ansL:
+                ansL,ansR = l,r
+            l,r = extend(s,i,i + 1)
+            if r - l > ansR - ansL:
+                ansL,ansR = l,r
+        return s[ansL:ansR + 1]            

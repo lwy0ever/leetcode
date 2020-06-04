@@ -4,7 +4,7 @@ class Solution:
         # dp[x] = (dp[x + 1] + dp[x + 2] + ... + dp[x + W]) / W
 
         # dp[x] = 1.0 when K <= x <= N, else 0.0
-        dp = [0] * (N + W + 1)
+        dp = [0] * (N + W)
         for i in range(K,N + 1):
             dp[i] = 1
         

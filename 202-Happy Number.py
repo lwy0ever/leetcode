@@ -9,8 +9,6 @@ class Solution:
                 newN += m ** 2
             n = newN
             #print(n)
-            if n == 1:
-                return True
             if n in appeared:
                 return False
         return True
