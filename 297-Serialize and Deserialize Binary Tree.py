@@ -17,7 +17,7 @@ class Codec:
             if not root:
                 return 'None,'
             return str(root.val) + ',' + dfs(root.left) + dfs(root.right)
-        return dfs(root)        
+        return dfs(root)
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.

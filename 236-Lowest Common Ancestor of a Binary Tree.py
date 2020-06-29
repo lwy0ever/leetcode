@@ -20,7 +20,7 @@ class Solution:
             right = lca(root.right)
             if self.ans:    # 已有结果,不用再判断
                 return False
-            mid = (root.val == p.val) or (root.val == q.val)
+            mid = (root == p) or (root == q)
             if mid + left + right == 2:
                 self.ans = root
             return mid or left or right
