@@ -1,23 +1,11 @@
 class Solution:
     def minimumTotal(self, triangle: List[List[int]]) -> int:
-        # 空间复杂度O(1)
-        # 从下向上,利用triangle自身保存数据
         n = len(triangle)
-        while n > 1:
-            for i in range(n - 1):
-                triangle[n - 2][i] += min(triangle[n - 1][i],triangle[n - 1][i + 1])
-            n -= 1
-        return triangle[0][0]
-        # 空间复杂度O(n)
-        '''
-        n = len(triangle)
-        arr = [0] * n
-        arr[0] = triangle[0][0]
-        for l in range(1,n):
-            arr[l] = arr[l - 1] + triangle[l][l]
-            for i in range(l - 1,0,-1):
-                arr[i] = min(arr[i - 1:i + 1]) + triangle[l][i]
-            arr[0] += triangle[l][0]
-            #print(arr)
-        return min(arr)
-        '''
+        dp = [0] * n    # 从下往上,dp[i]表示归集到第row行时,triangle[row][i]的最小值
+        for i in range(n):
+            dp[i] = triangle[-1][i]
+        for row in range(n - 2,-1,-1):
+            for i in range(row + 1):
+                dp[i] = min(dp[i],dp[i + 1]) + triangle[row][i]
+            #print(dp)
+        return dp[0]

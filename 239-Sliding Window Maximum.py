@@ -18,7 +18,6 @@ class Solution:
 
         stack = []  # 存放nums的下标,按照nums[i]从大到小排序
         n = len(nums)
-        maxIndex = 0
         ans = []
         for i in range(n):
             clearStack(i)
