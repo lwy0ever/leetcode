@@ -1,11 +1,1 @@
-class Solution:
-    def integerBreak(self, n: int) -> int:
-        # 3 * 3 > 2 * 2 * 2
-        base = {2:1,3:2,4:4,5:6}
-        if n in base:
-            return base[n]
-        # n >= 6
-        d,m = divmod(n - 3,3)
-        ans = 3 ** d
-        ans *= max(base[m + 3],m + 3)
-        return ans
+class Solution:\u000A    def integerBreak(self, n: int) \u002D\u003E int:\u000A        # dp算法\u000A        dp \u003D [1] * n    # dp[i]表示i + 1的最大化乘积\u000A        for i in range(1,n):\u000A            for j in range(1,i + 1):\u000A                #print(i + 1,j,i \u002D j + 1,dp[i \u002D j])\u000A                dp[i] \u003D max(dp[i],dp[i \u002D j] * j,(i \u002D j + 1) * j)\u000A        #print(dp)\u000A        return dp[\u002D1]\u000A        # 数学算法\u000A        \u0027\u0027\u0027\u000A        # 3 * 3 \u003E 2 * 2 * 2\u000A        base \u003D {2:1,3:2,4:4,5:6}\u000A        if n in base:\u000A            return base[n]\u000A        # n \u003E\u003D 6\u000A        d,m \u003D divmod(n \u002D 3,3)\u000A        ans \u003D 3 ** d\u000A        ans *\u003D max(base[m + 3],m + 3)\u000A        return ans\u000A        \u0027\u0027\u0027

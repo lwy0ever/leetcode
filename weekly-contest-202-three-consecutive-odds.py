@@ -1,0 +1,1 @@
+class Solution:\u000A    def threeConsecutiveOdds(self, arr: List[int]) \u002D\u003E bool:\u000A        cnt \u003D 0\u000A        for a in arr:\u000A            if a \u0026 1:\u000A                cnt +\u003D 1\u000A                if cnt \u003E\u003D 3:\u000A                    return True\u000A            else:\u000A                cnt \u003D 0\u000A        return False
