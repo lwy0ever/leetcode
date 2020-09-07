@@ -1,44 +1,24 @@
 class Solution:
     def isNumber(self, s: str) -> bool:
         # 状态机
-        '''
-        state	blank	+/-	0-9	.	e	other
-        0   	0   	1	6	2	-1	-1
-        1   	-1	    -1	6	2	-1	-1
-        2   	-1	    -1	3	-1	-1	-1
-        3   	8   	-1	3	-1	4	-1
-        4   	-1  	7	5	-1	-1	-1
-        5   	8   	-1	5	-1	-1	-1
-        6   	8   	-1	6	3	4	-1
-        7	    -1  	-1	5	-1	-1	-1
-        8	    8   	-1	-1	-1	-1	-1
-        '''
-        transfer = [[ 0, 1, 6, 2,-1,-1],
-                    [-1,-1, 6, 2,-1,-1],
-                    [-1,-1, 3,-1,-1,-1],
-                    [ 8,-1, 3,-1, 4,-1],
-                    [-1, 7, 5,-1,-1,-1],
-                    [ 8,-1, 5,-1,-1,-1],
-                    [ 8,-1, 6, 3, 4,-1],
-                    [-1,-1, 5,-1,-1,-1],
-                    [ 8,-1,-1,-1,-1,-1]]
-        finals = [0,0,0,1,0,1,1,0,1]
-        stat = 0
+        states = [
+            { ' ': 0, 's': 1, 'd': 2,         '.': 4 }, # 0. start with 'blank'
+            {                 'd': 2,         '.': 4 }, # 1. 'sign' before 'e'
+            {                 'd': 2, '.': 3,        'e': 5, ' ': 8 },  # 2. 'digit' before 'dot'
+            {                 'd': 3,                'e': 5, ' ': 8 },  # 3. 'digit' after 'dot'
+            {                 'd': 3 }, # 4. 'digit' after 'dot' (‘blank’ before 'dot')
+            {                                               's': 6, 'd': 7 },   # 5. 'e'
+            {                                               'd': 7 },   # 6. 'sign' after 'e'
+            {                                               'd': 7, ' ': 8 },   # 7. 'digit' after 'e'
+            {                                               ' ': 8 }    # 8. end with 'blank'
+        ]
+        p = 0                           # start with state 0
         for c in s:
-            if c == ' ':
-                t = 0
-            elif c in ('+','-'):
-                t = 1
-            elif ord('0') <= ord(c) <= ord('9'):
-                t = 2
-            elif c == '.':
-                t = 3
-            elif c == 'e':
-                t = 4
-            else:
-                t = 5
-            #print(stat,t)
-            stat = transfer[stat][t]
-            if stat == -1:
-                return False
-        return bool(finals[stat])
+            if '0' <= c <= '9': t = 'd' # digit
+            elif c in "+-": t = 's'     # sign
+            elif c in "eE": t = 'e'     # e or E
+            elif c in ". ": t = c       # dot, blank
+            else: t = '?'               # unknown
+            if t not in states[p]: return False
+            p = states[p][t]
+        return p in (2, 3, 7, 8)

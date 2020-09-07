@@ -14,7 +14,7 @@ class Solution:
             for i in range(n):
                 if (1 << i) & cols == 0 and (1 << i) & left == 0 and (1 << i) & right == 0:
                     queen.append(i)
-                    dfs(row + 1,cols ^ (1 << i),(left ^ (1 << i)) << 1,(right ^ (1 << i)) >> 1)
+                    dfs(row + 1,cols | (1 << i),(left | (1 << i)) << 1,(right | (1 << i)) >> 1)
                     queen.pop()
 
         dfs(0,0,0,0)
