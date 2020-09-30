@@ -6,7 +6,7 @@ class Solution:
             if k == 0 and n == 0:
                 nonlocal ans
                 ans.append(arr)
-            if k < 0 or (arr and n <= arr[-1]):
+            if k == 0 or (arr and n <= arr[-1]):
                 return
             if arr:
                 st = arr[-1] + 1

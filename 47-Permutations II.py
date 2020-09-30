@@ -4,6 +4,7 @@ class Solution:
         ans = []
         
         def dfs(arr,a):  # arr表示可用的数组,a表示已经形成的排列
+            #print(arr,a)
             n = len(arr)
             if n == 0:
                 ans.append(a)
