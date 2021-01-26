@@ -1,12 +1,18 @@
 class Solution:
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
+        # 并查集
         def dis(p1,p2):
             return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
-        
+
         def findGroup(i):
+            '''
             while group[i] != i:
                 i = group[i]
             return i
+            '''
+            if group[i] != i:
+                group[i] = findGroup(group[i])
+            return group[i]
         
         dist = []
         n = len(points)

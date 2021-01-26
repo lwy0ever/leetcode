@@ -11,5 +11,5 @@ class Solution:
                 right[i] = right[i + 1] + 1
         ans = 0
         for i in range(n):
-                ans += max(left[i],right[i])
+            ans += max(left[i],right[i])
         return ans

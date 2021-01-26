@@ -26,4 +26,3 @@ class Solution:
                 break
         odd.next = evenHead
         return head
-        

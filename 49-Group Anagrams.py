@@ -6,7 +6,8 @@ class Solution:
             for c in s:
                 cnt[ord(c) - ord('a')] += 1
             ans[tuple(cnt)].append(s)
-        return ans.values()
+        #print(ans.values())
+        return list(ans.values())
 
         '''
         ans = []

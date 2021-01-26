@@ -1,6 +1,6 @@
 class Solution:
     def reconstructQueue(self, people: List[List[int]]) -> List[List[int]]:
-        # 高个子先站好位，矮个子插入到K位置上，前面肯定有K个高个子，矮个子再插到前面也满足K的要求
+        # 高个子先站好位,矮个子插入到位置K上,前面肯定有K个高个子,矮个子再插到前面也满足K的要求
         people.sort(key = lambda p:(-p[0],p[1]))
         ans = []
         for p in people:

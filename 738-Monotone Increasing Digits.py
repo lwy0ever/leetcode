@@ -1,23 +1,19 @@
 class Solution:
     def monotoneIncreasingDigits(self, N: int) -> int:
-        s = str(N)
-        increase = True
-        decreasePos = 0
-        astr = ''
-        for i in range(len(s) - 1):
-            if s[i] < s[i + 1]:
-                decreasePos = i + 1
-                continue
-            if s[i] > s[i + 1]:
-                increase = False
-                break
-        if increase:
+        # 从后向前遍历
+        # 如果前面的数字大于后面的数字,则前面的数字-1,后面的数字变成9
+        arr = list(map(int,list(str(N))))
+        l = len(arr)
+        pos = -1
+        for i in range(l - 2,-1,-1):
+            if arr[i] > arr[i + 1]:
+                arr[i] -= 1
+                pos = i
+        #print(pos,arr)
+        if pos == -1:
             return N
-        for i in range(len(s)):
-            if i < decreasePos:
-                    astr += s[i]
-            elif i == decreasePos:
-                    astr += chr(ord(s[i]) - 1)
-            else:
-                astr += '9'
-        return int(astr)
+        else:
+            a = 0
+            for i in range(pos + 1):
+                a = a * 10 + arr[i]
+            return a * 10 ** (l - pos - 1) + 10 ** (l - pos - 1) - 1

@@ -1,20 +1,18 @@
 class Solution:
-    def largeGroupPositions(self, S: str) -> List[List[int]]:
-        ans = []
-        S += 'X'
-        n = len(S)
+    def largeGroupPositions(self, s: str) -> List[List[int]]:
+        cnt = 0
         pre = ''
-        cnt = 1
-        start = -1
-        for i in range(n):
-            if S[i] != pre:
-                #print(S[i],cnt)
-                if cnt >= 3:
-                    ans.append([start,i - 1])
-                pre = S[i]
-                start = i
-                cnt = 1
-            else:
+        prePos = -1
+        ans = []
+        for i,c in enumerate(s):
+            if c == pre:
                 cnt += 1
+            else:
+                if cnt >= 3:
+                    ans.append([prePos,i - 1])
+                cnt = 1
+                pre = c
+                prePos = i
+        if cnt >= 3:
+            ans.append([prePos,i])
         return ans
-            

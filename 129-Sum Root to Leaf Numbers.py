@@ -7,16 +7,16 @@
 
 class Solution:
     def sumNumbers(self, root: TreeNode) -> int:
-        ans = 0        
-        def dfs(tn,pre):
-            if not tn:
-                return
-            if not tn.left and not tn.right:
-                nonlocal ans
-                ans += pre * 10 + tn.val
-                return
-            pre = pre * 10 + tn.val
-            dfs(tn.left,pre)
-            dfs(tn.right,pre)
-        dfs(root,0)
-        return ans
+        self.ans = 0
+        def dfs(pre,r):
+            p = pre * 10 + r.val
+            if r.left or r.right:
+                if r.left:
+                    dfs(p,r.left)
+                if r.right:
+                    dfs(p,r.right)
+            else:
+                self.ans += p
+        if root:
+            dfs(0,root)
+        return self.ans

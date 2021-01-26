@@ -1,10 +1,10 @@
 class Solution:
     def sortByBits(self, arr: List[int]) -> List[int]:
-        def c(n):
+        def count1(n):
             ans = 0
-            while n > 0:
+            while n:
                 n &= (n - 1)
                 ans += 1
             return ans
         
-        return sorted(arr,key = lambda x:(c(x),x))
+        return sorted(arr,key = lambda x:(count1(x),x))

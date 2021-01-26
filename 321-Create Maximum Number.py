@@ -7,9 +7,12 @@ class Solution:
             if not k:
                 return []
             ans = [10]
-            cnt = len(num) - k # 可以被移除的数量
-            while num:
-                n = num.pop(0)
+            length = len(num)
+            cnt = length - k # 可以被移除的数量
+            ind = 0
+            while ind < length:
+                n = num[ind]
+                ind += 1
                 while cnt > 0 and ans[-1] < n:
                     ans.pop()
                     cnt -= 1
@@ -29,8 +32,8 @@ class Solution:
         
         ans = []
         for i in range(max(0,k - len(nums2)),min(k + 1,len(nums1) + 1)):
-            n1 = pick(nums1.copy(),i)
-            n2 = pick(nums2.copy(),k - i)
+            n1 = pick(nums1,i)
+            n2 = pick(nums2,k - i)
             #print(i,n1,n2)
             m = merge(n1,n2)
             #print(m)

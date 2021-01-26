@@ -11,6 +11,6 @@ class Solution:
             j =  n - 1
             while j >= 0 and nums[i] >= nums[j]:
                 j -= 1
-            print(i,j)
+            #print(i,j)
             nums[i],nums[j] = nums[j],nums[i]
         nums[i + 1:] = nums[i + 1:][::-1]

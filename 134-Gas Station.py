@@ -8,11 +8,10 @@ class Solution:
             ttl += gas[i] - cost[i]
             cur += gas[i] - cost[i]
             if cur < 0: # 如果从start不能到i站,那么start之间任何一站都不能到i站
-                # 那么从start经过0,一定能到达start吗?
-                # 假设存在k(0 < k < start),从start无法到达
-                # 0到k + k到start + start到0 >= 0
-                # 由于start之前的点都检查过,所以 k到start < 0(否则k就是答案了)
-                # 那么 0到k + start到0 > 0,k是可到达的,与假设矛盾
                 start = i + 1
                 cur = 0
+        # 如果从start到0是可以完成的,那么会不会从0无法到达start呢?
+        # 假设存在0<k<start的k,无法到达,也就是k到start < 0
+        # 0到k + k到start + start到0 >=0
+        # 所以:0到k + start到0 >= 0,也就是k一定可以到达
         return start if ttl >= 0 else -1
