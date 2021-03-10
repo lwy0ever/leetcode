@@ -1,1 +1,20 @@
-# Definition for a binary tree node.\u000A# class TreeNode:\u000A#     def __init__(self, x):\u000A#         self.val \u003D x\u000A#         self.left \u003D None\u000A#         self.right \u003D None\u000A\u000Aclass Solution:\u000A    def rob(self, root: TreeNode) \u002D\u003E int:\u000A        # 返回两个数据\u000A        # 1,行窃这个根节点可以得到的最大金额\u000A        # 2,不行窃这个根节点可以得到的最大金额\u000A        def dfs(tn):\u000A            if not tn:\u000A                return 0,0\u000A            l \u003D dfs(tn.left)\u000A            r \u003D dfs(tn.right)\u000A            return tn.val + l[1] + r[1],max(l) + max(r)\u000A        \u000A        return max(dfs(root))
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def rob(self, root: TreeNode) -> int:
+        # 返回两个数据
+        # 1,行窃这个根节点可以得到的最大金额
+        # 2,不行窃这个根节点可以得到的最大金额
+        def dfs(tn):
+            if not tn:
+                return 0,0
+            l = dfs(tn.left)
+            r = dfs(tn.right)
+            return tn.val + l[1] + r[1],max(l) + max(r)
+        
+        return max(dfs(root))

@@ -1,1 +1,18 @@
-class Solution:\u000A    def getWinner(self, arr: List[int], k: int) \u002D\u003E int:\u000A        n \u003D len(arr)\u000A        if k \u003E n \u002D 1:\u000A            return max(arr)\u000A        _max \u003D arr[0]\u000A        cnt \u003D 0\u000A        ind \u003D 1\u000A        while cnt \u003C k:\u000A            if _max \u003E arr[ind]:\u000A                cnt +\u003D 1\u000A            else:\u000A                _max \u003D arr[ind]\u000A                cnt \u003D 1\u000A            ind +\u003D 1\u000A            if ind \u003D\u003D n:\u000A                ind \u003D 0\u000A        return _max
+class Solution:
+    def getWinner(self, arr: List[int], k: int) -> int:
+        n = len(arr)
+        if k > n - 1:
+            return max(arr)
+        _max = arr[0]
+        cnt = 0
+        ind = 1
+        while cnt < k:
+            if _max > arr[ind]:
+                cnt += 1
+            else:
+                _max = arr[ind]
+                cnt = 1
+            ind += 1
+            if ind == n:
+                ind = 0
+        return _max

@@ -1,1 +1,20 @@
-class Solution:\u000A    def minCost(self, n: int, cuts: List[int]) \u002D\u003E int:\u000A        # 为了方便处理,在cuts前后添加0和n\u000A        # dp[i][j]表示cuts[i]和cuts[j]区间内,cut的最小成本\u000A        # dp[i][i + 1] \u003D 0\u000A        cuts.sort()\u000A        cuts \u003D [0] + cuts + [n]\u000A        cn \u003D len(cuts)\u000A        #print(cn)\u000A        dp \u003D [[0] * cn for _ in range(cn)]\u000A        for l in range(2,cn):   # dp[i][j]中j \u002D i定义为l\u000A            for i in range(cn \u002D l):\u000A                j \u003D i + l\u000A                dp[i][j] \u003D n * cn   # 最长不会超过n * cn\u000A                for m in range(i + 1,j):\u000A                    #print(i,m,j)\u000A                    dp[i][j] \u003D min(dp[i][j],cuts[j] \u002D cuts[i] + dp[i][m] + dp[m][j])\u000A        #print(dp)\u000A        return dp[0][cn \u002D 1]\u000A                
+class Solution:
+    def minCost(self, n: int, cuts: List[int]) -> int:
+        # 为了方便处理,在cuts前后添加0和n
+        # dp[i][j]表示cuts[i]和cuts[j]区间内,cut的最小成本
+        # dp[i][i + 1] = 0
+        cuts.sort()
+        cuts = [0] + cuts + [n]
+        cn = len(cuts)
+        #print(cn)
+        dp = [[0] * cn for _ in range(cn)]
+        for l in range(2,cn):   # dp[i][j]中j - i定义为l
+            for i in range(cn - l):
+                j = i + l
+                dp[i][j] = n * cn   # 最长不会超过n * cn
+                for m in range(i + 1,j):
+                    #print(i,m,j)
+                    dp[i][j] = min(dp[i][j],cuts[j] - cuts[i] + dp[i][m] + dp[m][j])
+        #print(dp)
+        return dp[0][cn - 1]
+                

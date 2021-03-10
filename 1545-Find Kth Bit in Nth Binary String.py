@@ -1,1 +1,27 @@
-class Solution:\u000A    def findKthBit(self, n: int, k: int) \u002D\u003E str:\u000A        # 方法1:找规律\u000A        # 对于Sn来说,Sn \u003D S(n\u002D1) + \u00271\u0027 + 反转(取反S(n \u002D 1))\u000A        # Sn的长度 \u003D len(S(n \u002D 1)) * 2 + 1 \u003D 2 ** n \u002D 1\u000A        # 对于findKthBit(n,k)\u000A        # 如果k \u003D\u003D 1,则为\u00270\u0027\u000A        # 如果k \u003D\u003D 2 ** (n \u002D 1),则findKthBit(n,k) \u003D 1\u000A        # 如果k \u003C\u003D 2 ** (n \u002D 1) \u002D 1,则findKthBit(n,k) \u003D findKthBit(n \u002D 1,k)\u000A        # 如果k \u003E 2 ** n,则findKthBit(n,k) \u003D findKthBit(n \u002D 1,2 ** n \u002D k)取反\u000A        if k \u003D\u003D 1:\u000A            return \u00270\u0027\u000A        if k \u003D\u003D 2 ** (n \u002D 1):\u000A            return \u00271\u0027\u000A        if k \u003C 2 ** (n \u002D 1):\u000A            return self.findKthBit(n \u002D 1,k)\u000A        else:\u000A            return \u00271\u0027 if self.findKthBit(n \u002D 1,2 ** n \u002D k) \u003D\u003D \u00270\u0027 else \u00270\u0027\u000A        # 方法2:无脑算法\u000A        \u0027\u0027\u0027\u000A        s \u003D \u00270\u0027\u000A        for i in range(n):\u000A            t \u003D [\u00271\u0027 if c \u003D\u003D \u00270\u0027 else \u00270\u0027 for c in s]\u000A            s +\u003D \u00271\u0027 + \u0027\u0027.join(t[::\u002D1])\u000A            if len(s) \u003E\u003D k:\u000A                return s[k \u002D 1]\u000A        \u0027\u0027\u0027
+class Solution:
+    def findKthBit(self, n: int, k: int) -> str:
+        # 方法1:找规律
+        # 对于Sn来说,Sn = S(n-1) + '1' + 反转(取反S(n - 1))
+        # Sn的长度 = len(S(n - 1)) * 2 + 1 = 2 ** n - 1
+        # 对于findKthBit(n,k)
+        # 如果k == 1,则为'0'
+        # 如果k == 2 ** (n - 1),则findKthBit(n,k) = 1
+        # 如果k <= 2 ** (n - 1) - 1,则findKthBit(n,k) = findKthBit(n - 1,k)
+        # 如果k > 2 ** n,则findKthBit(n,k) = findKthBit(n - 1,2 ** n - k)取反
+        if k == 1:
+            return '0'
+        if k == 2 ** (n - 1):
+            return '1'
+        if k < 2 ** (n - 1):
+            return self.findKthBit(n - 1,k)
+        else:
+            return '1' if self.findKthBit(n - 1,2 ** n - k) == '0' else '0'
+        # 方法2:无脑算法
+        '''
+        s = '0'
+        for i in range(n):
+            t = ['1' if c == '0' else '0' for c in s]
+            s += '1' + ''.join(t[::-1])
+            if len(s) >= k:
+                return s[k - 1]
+        '''

@@ -1,1 +1,63 @@
-class Solution:\u000A    def multiply(self, num1: str, num2: str) \u002D\u003E str:\u000A        # 竖式优化,逐位相乘,整体相加\u000A        # 比如34 * 56\u000A        #     34\u000A        #   x 56\u000A        # \u002D\u002D\u002D\u002D\u002D\u002D\u000A        #     24\u000A        #    18\u000A        #    20\u000A        #   15\u000A        # \u002D\u002D\u002D\u002D\u002D\u002D\u000A        #   1904\u000A        # toadd[i]表示需要左移i位的结果\u000A        # 例如上例中的3x5,在toadd[2]里面\u000A        # 最多移动len(num1) + len(num2) \u002D 2位\u000A        if num1 \u003D\u003D \u00270\u0027 or num2 \u003D\u003D \u00270\u0027:\u000A            return \u00270\u0027\u000A\u000A        def multi(num,n):\u000A            toadd \u003D []\u000A            n \u003D int(n)\u000A            for x in num[::\u002D1]:\u000A                toadd.append(int(x) * n)\u000A            toadd \u003D CarrySolver(toadd)\u000A            return \u0027\u0027.join(str(x) for x in toadd[::\u002D1])\u000A\u000A        def CarrySolver(arr):\u000A            i \u003D 0\u000A            while i \u003C len(arr):\u000A                if arr[i] \u003E\u003D 10:\u000A                    ad \u003D arr[i] // 10\u000A                    if i + 1 \u003D\u003D len(arr):\u000A                        arr.append(ad)\u000A                    else:\u000A                        arr[i + 1] +\u003D ad\u000A                    arr[i] %\u003D 10\u000A                i +\u003D 1\u000A            return arr\u000A\u000A        def addStrings(num1, num2):\u000A            ans \u003D []\u000A            n1 \u003D len(num1)\u000A            n2 \u003D len(num2)\u000A            # 保证n1 \u003E\u003D n2,从而可以将结果直接存放在1中,并且不用做过多判断\u000A            if n1 \u003C n2:\u000A                num1,num2 \u003D num2,num1\u000A                n1,n2 \u003D n2,n1\u000A            s1 \u003D [int(x) for x in num1]\u000A            s2 \u003D [int(x) for x in num2]\u000A            # 倒序存储,便于将来处理进位\u000A            s1 \u003D s1[::\u002D1]\u000A            s2 \u003D s2[::\u002D1]\u000A            for i in range(n2):\u000A                s1[i] +\u003D s2[i]\u000A            ans \u003D \u0027\u0027.join([str(x) for x in CarrySolver(s1)][::\u002D1])\u000A            return ans\u000A\u000A        ans \u003D \u00270\u0027\u000A        for i,n in enumerate(num2[::\u002D1]):\u000A            tmp \u003D multi(num1,n)\u000A            ans \u003D addStrings(ans,tmp + \u00270\u0027 * i)\u000A        return ans
+class Solution:
+    def multiply(self, num1: str, num2: str) -> str:
+        # 竖式优化,逐位相乘,整体相加
+        # 比如34 * 56
+        #     34
+        #   x 56
+        # ------
+        #     24
+        #    18
+        #    20
+        #   15
+        # ------
+        #   1904
+        # toadd[i]表示需要左移i位的结果
+        # 例如上例中的3x5,在toadd[2]里面
+        # 最多移动len(num1) + len(num2) - 2位
+        if num1 == '0' or num2 == '0':
+            return '0'
+
+        def multi(num,n):
+            toadd = []
+            n = int(n)
+            for x in num[::-1]:
+                toadd.append(int(x) * n)
+            toadd = CarrySolver(toadd)
+            return ''.join(str(x) for x in toadd[::-1])
+
+        def CarrySolver(arr):
+            i = 0
+            while i < len(arr):
+                if arr[i] >= 10:
+                    ad = arr[i] // 10
+                    if i + 1 == len(arr):
+                        arr.append(ad)
+                    else:
+                        arr[i + 1] += ad
+                    arr[i] %= 10
+                i += 1
+            return arr
+
+        def addStrings(num1, num2):
+            ans = []
+            n1 = len(num1)
+            n2 = len(num2)
+            # 保证n1 >= n2,从而可以将结果直接存放在1中,并且不用做过多判断
+            if n1 < n2:
+                num1,num2 = num2,num1
+                n1,n2 = n2,n1
+            s1 = [int(x) for x in num1]
+            s2 = [int(x) for x in num2]
+            # 倒序存储,便于将来处理进位
+            s1 = s1[::-1]
+            s2 = s2[::-1]
+            for i in range(n2):
+                s1[i] += s2[i]
+            ans = ''.join([str(x) for x in CarrySolver(s1)][::-1])
+            return ans
+
+        ans = '0'
+        for i,n in enumerate(num2[::-1]):
+            tmp = multi(num1,n)
+            ans = addStrings(ans,tmp + '0' * i)
+        return ans

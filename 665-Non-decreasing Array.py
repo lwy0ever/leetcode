@@ -1,12 +1,5 @@
 class Solution:
     def checkPossibility(self, nums: List[int]) -> bool:
-        """
-        :type nums: List[int]
-        :rtype: bool
-        """
-        #nums.insert(0,float('-inf'))
-        #nums.append(float('inf'))
-        #print(nums)
         n = len(nums)
         cnt = 0
         for i in range(n - 1):

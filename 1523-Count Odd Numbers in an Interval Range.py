@@ -1,1 +1,3 @@
-class Solution:\u000A    def countOdds(self, low: int, high: int) \u002D\u003E int:\u000A        return (high \u002D low) // 2 + (high \u0026 1 or low \u0026 1)
+class Solution:
+    def countOdds(self, low: int, high: int) -> int:
+        return (high - low) // 2 + (high & 1 or low & 1)

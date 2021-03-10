@@ -1,1 +1,10 @@
-class Solution:\u000A    def maxCoins(self, piles: List[int]) \u002D\u003E int:\u000A        # Alice取最大的,我取次大的,Bob取最小的\u000A        # 依次类推\u000A        ans \u003D 0\u000A        piles.sort()\u000A        n \u003D len(piles)\u000A        for i in range(1,n // 3 + 1):\u000A            ans +\u003D piles[\u002Di * 2]\u000A        return ans
+class Solution:
+    def maxCoins(self, piles: List[int]) -> int:
+        # Alice取最大的,我取次大的,Bob取最小的
+        # 依次类推
+        ans = 0
+        piles.sort()
+        n = len(piles)
+        for i in range(1,n // 3 + 1):
+            ans += piles[-i * 2]
+        return ans

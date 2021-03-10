@@ -1,1 +1,48 @@
-class Solution:\u000A    def canIWin(self, maxChoosableInteger: int, desiredTotal: int) \u002D\u003E bool:\u000A        # 状态压缩 + dfs,排除已用的数字\u000A        if maxChoosableInteger \u003E\u003D desiredTotal:\u000A            return True\u000A        if (1 + maxChoosableInteger) * maxChoosableInteger \u003C desiredTotal:\u000A            return False\u000A        \u000A        cache \u003D dict()\u000A        def dfs(status,options,desired):\u000A            if (status,desired) in cache:\u000A                return cache[(status,desired)]\u000A            # 选择1时,i \u003D 0,t \u003D 1 \u003C\u003C 0 \u003D 1\u000A            # 选择2时,i \u003D 1,t \u003D 1 \u003C\u003C 1 \u003D 2\u000A            for i in range(len(options)):\u000A                # 直接达标 or 对手无法达标\u000A                if desired \u003C\u003D options[i] + 1 or not dfs(status | (1 \u003C\u003C options[i]),options[:i] + options[i + 1:],desired \u002D options[i] \u002D 1):\u000A                    cache[(status,desired)] \u003D True\u000A                    return True\u000A            cache[(status,desired)] \u003D False\u000A            return False\u000A        \u000A        return dfs(0,list(range(maxChoosableInteger)),desiredTotal)\u000A        \u0027\u0027\u0027\u000A        # 状态压缩 + dfs\u000A        if maxChoosableInteger \u003E\u003D desiredTotal:\u000A            return True\u000A        if (1 + maxChoosableInteger) * maxChoosableInteger \u003C desiredTotal:\u000A            return False\u000A        \u000A        cache \u003D dict()\u000A        def dfs(status,desired):\u000A            if (status,desired) in cache:\u000A                return cache[(status,desired)]\u000A            # 选择1时,i \u003D 0,t \u003D 1 \u003C\u003C 0 \u003D 1\u000A            # 选择2时,i \u003D 1,t \u003D 1 \u003C\u003C 1 \u003D 2\u000A            for i in range(maxChoosableInteger):\u000A                t \u003D 1 \u003C\u003C i\u000A                if status \u0026 t \u003D\u003D 0: # 没有被用过\u000A                    # 直接达标 or 对手无法达标\u000A                    if desired \u003C\u003D i + 1 or not dfs(status | t,desired \u002D i \u002D 1):\u000A                        cache[(status,desired)] \u003D True\u000A                        return True\u000A            cache[(status,desired)] \u003D False\u000A            return False\u000A        \u000A        return dfs(0,desiredTotal)\u000A        \u0027\u0027\u0027
+class Solution:
+    def canIWin(self, maxChoosableInteger: int, desiredTotal: int) -> bool:
+        # 状态压缩 + dfs,排除已用的数字
+        if maxChoosableInteger >= desiredTotal:
+            return True
+        if (1 + maxChoosableInteger) * maxChoosableInteger < desiredTotal:
+            return False
+        
+        cache = dict()
+        def dfs(status,options,desired):
+            if (status,desired) in cache:
+                return cache[(status,desired)]
+            # 选择1时,i = 0,t = 1 << 0 = 1
+            # 选择2时,i = 1,t = 1 << 1 = 2
+            for i in range(len(options)):
+                # 直接达标 or 对手无法达标
+                if desired <= options[i] + 1 or not dfs(status | (1 << options[i]),options[:i] + options[i + 1:],desired - options[i] - 1):
+                    cache[(status,desired)] = True
+                    return True
+            cache[(status,desired)] = False
+            return False
+        
+        return dfs(0,list(range(maxChoosableInteger)),desiredTotal)
+        '''
+        # 状态压缩 + dfs
+        if maxChoosableInteger >= desiredTotal:
+            return True
+        if (1 + maxChoosableInteger) * maxChoosableInteger < desiredTotal:
+            return False
+        
+        cache = dict()
+        def dfs(status,desired):
+            if (status,desired) in cache:
+                return cache[(status,desired)]
+            # 选择1时,i = 0,t = 1 << 0 = 1
+            # 选择2时,i = 1,t = 1 << 1 = 2
+            for i in range(maxChoosableInteger):
+                t = 1 << i
+                if status & t == 0: # 没有被用过
+                    # 直接达标 or 对手无法达标
+                    if desired <= i + 1 or not dfs(status | t,desired - i - 1):
+                        cache[(status,desired)] = True
+                        return True
+            cache[(status,desired)] = False
+            return False
+        
+        return dfs(0,desiredTotal)
+        '''

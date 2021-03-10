@@ -1,1 +1,32 @@
-class Solution:\u000A    def minDays(self, n: int) \u002D\u003E int:\u000A        # n个橘子,经过1天,可以变成\u000A        # 1,n \u002D 1\u000A        # 2,n // 2\u000A        # 3,n // 3\u000A        # 显然,方法2,3比方法1要快\u000A        dp \u003D dict()  # dp[i]表示吃i个橘子需要的天数\u000A        dp[0] \u003D 0\u000A        dp[1] \u003D 1\u000A        def helper(d):\u000A            if d in dp:\u000A                return dp[d]\u000A            d3,m3 \u003D divmod(d,3)\u000A            helper(d3)\u000A            d2,m2 \u003D divmod(d,2)\u000A            helper(d2)\u000A            dp[d] \u003D min(dp[d3] + m3,dp[d2] + m2) + 1\u000A            #print(d,dp[d])\u000A            #return dp[d]\u000A        helper(n)\u000A        #print(dp)\u000A        return dp[n]\u000A    \u0027\u0027\u0027\u000A    @lru_cache(None)\u000A    def minDays(self, n: int) \u002D\u003E int:\u000A        if n \u003D\u003D 1:\u000A            return 1\u000A        if n \u003D\u003D 0:\u000A            return 0\u000A        return min(self.minDays(n // 3) + n % 3,self.minDays(n // 2) + n % 2) + 1\u000A    \u0027\u0027\u0027
+class Solution:
+    def minDays(self, n: int) -> int:
+        # n个橘子,经过1天,可以变成
+        # 1,n - 1
+        # 2,n // 2
+        # 3,n // 3
+        # 显然,方法2,3比方法1要快
+        dp = dict()  # dp[i]表示吃i个橘子需要的天数
+        dp[0] = 0
+        dp[1] = 1
+        def helper(d):
+            if d in dp:
+                return dp[d]
+            d3,m3 = divmod(d,3)
+            helper(d3)
+            d2,m2 = divmod(d,2)
+            helper(d2)
+            dp[d] = min(dp[d3] + m3,dp[d2] + m2) + 1
+            #print(d,dp[d])
+            #return dp[d]
+        helper(n)
+        #print(dp)
+        return dp[n]
+    '''
+    @lru_cache(None)
+    def minDays(self, n: int) -> int:
+        if n == 1:
+            return 1
+        if n == 0:
+            return 0
+        return min(self.minDays(n // 3) + n % 3,self.minDays(n // 2) + n % 2) + 1
+    '''

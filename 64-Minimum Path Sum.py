@@ -1,1 +1,14 @@
-class Solution:\u000A    def minPathSum(self, grid: List[List[int]]) \u002D\u003E int:\u000A        m \u003D len(grid)\u000A        n \u003D len(grid[0])\u000A        dp \u003D [[float(\u0027inf\u0027)] * n for _ in range(m)]\u000A        dp[0][0] \u003D grid[0][0]\u000A        for i in range(1,n):\u000A            dp[0][i] \u003D dp[0][i \u002D 1] + grid[0][i]\u000A        for i in range(1,m):\u000A            dp[i][0] \u003D dp[i \u002D 1][0] + grid[i][0]\u000A        for i in range(1,m):\u000A            for j in range(1,n):\u000A                dp[i][j] \u003D min(dp[i][j],dp[i \u002D 1][j] + grid[i][j],dp[i][j \u002D 1] + grid[i][j])\u000A        return dp[\u002D1][\u002D1]
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        dp = [[float('inf')] * n for _ in range(m)]
+        dp[0][0] = grid[0][0]
+        for i in range(1,n):
+            dp[0][i] = dp[0][i - 1] + grid[0][i]
+        for i in range(1,m):
+            dp[i][0] = dp[i - 1][0] + grid[i][0]
+        for i in range(1,m):
+            for j in range(1,n):
+                dp[i][j] = min(dp[i][j],dp[i - 1][j] + grid[i][j],dp[i][j - 1] + grid[i][j])
+        return dp[-1][-1]

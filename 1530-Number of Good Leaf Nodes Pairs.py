@@ -1,1 +1,35 @@
-# Definition for a binary tree node.\u000A# class TreeNode:\u000A#     def __init__(self, val\u003D0, left\u003DNone, right\u003DNone):\u000A#         self.val \u003D val\u000A#         self.left \u003D left\u000A#         self.right \u003D right\u000Aclass Solution:\u000A    def countPairs(self, root: TreeNode, distance: int) \u002D\u003E int:\u000A        # 由于distance \u003C\u003D 10,每个叶子节点返回其深度1\u000A        # 用arrayLeft记录每个节点左子树的叶子深度的个数,arrayLeft[i]表示深度为i + 1的叶子节点数\u000A        ans \u003D 0\u000A        def dfs(tn):\u000A            if not tn.left and not tn.right:\u000A                arr \u003D [0] * 10\u000A                arr[0] \u003D 1\u000A                return arr\u000A            if tn.left:\u000A                arrayLeft \u003D dfs(tn.left)\u000A            else:\u000A                arrayLeft \u003D [0] * 10\u000A            if tn.right:\u000A                arrayRight \u003D dfs(tn.right)\u000A            else:\u000A                arrayRight \u003D [0] * 10\u000A            for l in range(10):\u000A                for r in range(10):\u000A                    if l + r + 2 \u003C\u003D distance:\u000A                        nonlocal ans\u000A                        ans +\u003D arrayLeft[l] * arrayRight[r]\u000A            arr \u003D [0] * 10\u000A            for i in range(1,10):\u000A                arr[i] \u003D arrayLeft[i \u002D 1] + arrayRight[i \u002D 1]\u000A            return arr\u000A        dfs(root)\u000A        return ans
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def countPairs(self, root: TreeNode, distance: int) -> int:
+        # 由于distance <= 10,每个叶子节点返回其深度1
+        # 用arrayLeft记录每个节点左子树的叶子深度的个数,arrayLeft[i]表示深度为i + 1的叶子节点数
+        ans = 0
+        def dfs(tn):
+            if not tn.left and not tn.right:
+                arr = [0] * 10
+                arr[0] = 1
+                return arr
+            if tn.left:
+                arrayLeft = dfs(tn.left)
+            else:
+                arrayLeft = [0] * 10
+            if tn.right:
+                arrayRight = dfs(tn.right)
+            else:
+                arrayRight = [0] * 10
+            for l in range(10):
+                for r in range(10):
+                    if l + r + 2 <= distance:
+                        nonlocal ans
+                        ans += arrayLeft[l] * arrayRight[r]
+            arr = [0] * 10
+            for i in range(1,10):
+                arr[i] = arrayLeft[i - 1] + arrayRight[i - 1]
+            return arr
+        dfs(root)
+        return ans

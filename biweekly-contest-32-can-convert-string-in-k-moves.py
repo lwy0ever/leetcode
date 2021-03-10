@@ -1,1 +1,18 @@
-class Solution:\u000A    def canConvertString(self, s: str, t: str, k: int) \u002D\u003E bool:\u000A        if len(s) !\u003D len(t):\u000A            return False\u000A        n \u003D len(s)\u000A        cnt \u003D [0] * 26\u000A        for i in range(n):\u000A            cnt[(ord(t[i]) \u002D ord(s[i])) % 26] +\u003D 1\u000A        d,m \u003D divmod(k,26)\u000A        #print(cnt,d,m)\u000A        for i in range(1,26):\u000A            if i \u003C\u003D m:\u000A                if d + 1 \u003C cnt[i]:\u000A                    return False\u000A            else:   # i \u003E m\u000A                if d \u003C cnt[i]:\u000A                    return False\u000A        return True
+class Solution:
+    def canConvertString(self, s: str, t: str, k: int) -> bool:
+        if len(s) != len(t):
+            return False
+        n = len(s)
+        cnt = [0] * 26
+        for i in range(n):
+            cnt[(ord(t[i]) - ord(s[i])) % 26] += 1
+        d,m = divmod(k,26)
+        #print(cnt,d,m)
+        for i in range(1,26):
+            if i <= m:
+                if d + 1 < cnt[i]:
+                    return False
+            else:   # i > m
+                if d < cnt[i]:
+                    return False
+        return True

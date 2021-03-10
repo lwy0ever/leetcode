@@ -31,7 +31,7 @@ class Solution:
                         c += 1
                 if c == n:
                     nl.add(e)
-            #print(w,n,nl)
+            print(w,n,nl)
             wl = nl
             
         

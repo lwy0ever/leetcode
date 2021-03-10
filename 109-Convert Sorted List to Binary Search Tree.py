@@ -1,1 +1,67 @@
-# Definition for singly\u002Dlinked list.\u000A# class ListNode:\u000A#     def __init__(self, x):\u000A#         self.val \u003D x\u000A#         self.next \u003D None\u000A\u000A# Definition for a binary tree node.\u000A# class TreeNode:\u000A#     def __init__(self, x):\u000A#         self.val \u003D x\u000A#         self.left \u003D None\u000A#         self.right \u003D None\u000A\u000Aclass Solution:\u000A    def sortedListToBST(self, head: ListNode) \u002D\u003E TreeNode:\u000A        # 优化遍历方式的分治算法\u000A        # 利用全局变量优化遍历方式\u000A        def getLength(r):\u000A            l \u003D 0\u000A            while r:\u000A                l +\u003D 1\u000A                r \u003D r.next\u000A            return l\u000A\u000A        def buildTree(left,right):  # 链表的起止位置,返回树的头部\u000A            if left \u003E right:\u000A                return None\u000A            mid \u003D (left + right) // 2\u000A            root \u003D TreeNode()\u000A            root.left \u003D buildTree(left,mid \u002D 1)\u000A            nonlocal head   # 全局变量\u000A            root.val \u003D head.val\u000A            head \u003D head.next\u000A            root.right \u003D buildTree(mid + 1,right)\u000A            return root\u000A\u000A        length \u003D getLength(head)\u000A        return buildTree(0,length \u002D 1)\u000A\u000A    # 分治算法\u000A    \u0027\u0027\u0027\u000A    def sortedListToBST(self, head: ListNode) \u002D\u003E TreeNode:\u000A        def findMid(head):\u000A            pre \u003D None  # 为便于切断链表\u000A            slow \u003D head\u000A            fast \u003D head\u000A\u000A            while fast and fast.next:\u000A                pre \u003D slow\u000A                slow \u003D slow.next\u000A                fast \u003D fast.next.next\u000A\u000A            if pre: # 切断链表\u000A                pre.next \u003D None\u000A\u000A            return slow\u000A\u000A        if not head:\u000A            return None\u000A        mid \u003D findMid(head)\u000A        root \u003D TreeNode(mid.val)\u000A        if head \u003D\u003D mid:\u000A            return root\u000A        root.left \u003D self.sortedListToBST(head)\u000A        root.right \u003D self.sortedListToBST(mid.next)\u000A        return root\u000A    \u0027\u0027\u0027
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def sortedListToBST(self, head: ListNode) -> TreeNode:
+        # 优化遍历方式的分治算法
+        # 利用全局变量优化遍历方式
+        def getLength(r):
+            l = 0
+            while r:
+                l += 1
+                r = r.next
+            return l
+
+        def buildTree(left,right):  # 链表的起止位置,返回树的头部
+            if left > right:
+                return None
+            mid = (left + right) // 2
+            root = TreeNode()
+            root.left = buildTree(left,mid - 1)
+            nonlocal head   # 全局变量
+            root.val = head.val
+            head = head.next
+            root.right = buildTree(mid + 1,right)
+            return root
+
+        length = getLength(head)
+        return buildTree(0,length - 1)
+
+    # 分治算法
+    '''
+    def sortedListToBST(self, head: ListNode) -> TreeNode:
+        def findMid(head):
+            pre = None  # 为便于切断链表
+            slow = head
+            fast = head
+
+            while fast and fast.next:
+                pre = slow
+                slow = slow.next
+                fast = fast.next.next
+
+            if pre: # 切断链表
+                pre.next = None
+
+            return slow
+
+        if not head:
+            return None
+        mid = findMid(head)
+        root = TreeNode(mid.val)
+        if head == mid:
+            return root
+        root.left = self.sortedListToBST(head)
+        root.right = self.sortedListToBST(mid.next)
+        return root
+    '''

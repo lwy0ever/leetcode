@@ -1,1 +1,111 @@
-class Solution:\u000A    def minimalSteps(self, maze: List[str]) \u002D\u003E int:\u000A        # bfs + dp\u000A        # bfs部分\u000A        # 每次bfs的目标,是从某个点开始,经过任意一个O之后,到达任意一个之前没有到达过的M\u000A        # 所以在bfs的时候,除了记录位置,还需要记录是否曾经经过O\u000A        # 最后一次bfs,是从某个点开始,到达T\u000A        # dp部分\u000A        # 有num个M,需要确定光顾的先后顺序,使用dp解决\u000A        # 先将M \u002D O \u002D M的最小步数记录下来\u000A        # 用dp[mask][pos]记录\u000A        # mask是二进制形式表示的遍历情况(num\u003C\u003D16),有2 ** num种情况\u000A        # dp[mask][pos]表示已经遍历了mask为1的位置所在的M,目前在第pos个M的位置,需要的最小步数\u000A        di \u003D [(\u002D1,0),(1,0),(0,\u002D1),(0,1)]\u000A        m \u003D len(maze)\u000A        n \u003D len(maze[0])\u000A        distMM \u003D dict() # distMM[i][j]表示Ms[i]到Ms[j],且经过了一个O的最短距离\u000A        distMO \u003D dict() # 表示Ms[i]到Os[j]的最短距离\u000A        # 计算从start开始,到达每个targets,需要的步数,记录到cache里\u000A        def bfs(start,targets,cache):\u000A            cnt \u003D len(targets)\u000A            step \u003D 0\u000A            counter \u003D 0\u000A            fromP \u003D {(start[0],start[1])}\u000A            visited \u003D {(start[0],start[1])}\u000A            while fromP and counter \u003C cnt:\u000A                step +\u003D 1\u000A                toP \u003D set()\u000A                for fr,fc in fromP:\u000A                    for dr,dc in di:\u000A                        if 0 \u003C\u003D fr + dr \u003C m and 0 \u003C\u003D fc + dc \u003C n:\u000A                            if maze[fr + dr][fc + dc] \u003D\u003D \u0027#\u0027: continue\u000A                            if (fr + dr,fc + dc) not in visited:\u000A                                toP.add((fr + dr,fc + dc))\u000A                                visited.add((fr + dr,fc + dc))\u000A                                if (fr + dr,fc + dc) in targets:\u000A                                    cache[targets[(fr + dr,fc + dc)]] \u003D step\u000A                                    counter +\u003D 1\u000A                fromP \u003D toP\u000A        \u000A        Ms \u003D dict()\u000A        Os \u003D dict()\u000A        mLen \u003D 0\u000A        oLen \u003D 0\u000A        for i in range(m):\u000A            for j in range(n):\u000A                if maze[i][j] \u003D\u003D \u0027M\u0027:\u000A                    Ms[(i,j)] \u003D mLen\u000A                    mLen +\u003D 1\u000A                elif maze[i][j] \u003D\u003D \u0027O\u0027:\u000A                    Os[(i,j)] \u003D oLen\u000A                    oLen +\u003D 1\u000A                elif maze[i][j] \u003D\u003D \u0027S\u0027:\u000A                    S \u003D (i,j)\u000A                elif maze[i][j] \u003D\u003D \u0027T\u0027:\u000A                    T \u003D (i,j)\u000A        #print(Ms)\u000A        #print(Os)\u000A        if mLen \u003D\u003D 0:   # 没有M,只需要从S到T\u000A            Ts \u003D {T:0}\u000A            distST \u003D [float(\u0027inf\u0027)]\u000A            #print(S,Ts)\u000A            bfs(S,Ts,distST)\u000A            #print(distST)\u000A            ans \u003D distST[0]\u000A        else:\u000A            distMO \u003D [[float(\u0027inf\u0027)] * oLen for _ in range(mLen)]\u000A            for k,v in Ms.items():\u000A                bfs(k,Os,distMO[v])\u000A            #print(\u0027MO\u0027,distMO)\u000A            distMM \u003D [[float(\u0027inf\u0027)] * mLen for _ in range(mLen)]\u000A            for i in range(mLen):\u000A                for j in range(mLen):\u000A                    if i \u003D\u003D j:\u000A                        continue\u000A                    for k in range(oLen):\u000A                        distMM[i][j] \u003D min(distMM[i][j],distMO[i][k] + distMO[j][k])\u000A            #print(\u0027MM\u0027,distMM)\u000A            # 计算S到Os的距离\u000A            distSO \u003D [float(\u0027inf\u0027)] * oLen\u000A            bfs(S,Os,distSO)\u000A            #print(distSO)\u000A            # 计算S到Ms,且经过了一个O的最短距离\u000A            distSM \u003D [float(\u0027inf\u0027)] * mLen\u000A            for i in range(mLen):\u000A                for j in range(oLen):\u000A                    distSM[i] \u003D min(distSM[i],distSO[j] + distMO[i][j])\u000A            #print(distSM)\u000A            # 计算Ms到T的距离\u000A            distMT \u003D [float(\u0027inf\u0027)] * mLen\u000A            bfs(T,Ms,distMT)\u000A            #print(distMT)\u000A            #dp部分\u000A            dp \u003D [dict() for _ in range(1 \u003C\u003C mLen)]\u000A            for p in range(mLen):\u000A                dp[1 \u003C\u003C p][p] \u003D distSM[p]\u000A            for mask in range(1,1 \u003C\u003C mLen):\u000A                # 从dp[mask][p1]状态到p2点\u000A                for p1,v in dp[mask].items():\u000A                    for p2 in range(mLen):\u000A                        if p1 \u003D\u003D p2 or mask \u0026 (1 \u003C\u003C mask):\u000A                            continue\u000A                        if p2 in dp[mask | (1 \u003C\u003C p2)]:\u000A                            dp[mask | (1 \u003C\u003C p2)][p2] \u003D min(dp[mask | (1 \u003C\u003C p2)][p2],v + distMM[p1][p2])\u000A                        else:\u000A                            dp[mask | (1 \u003C\u003C p2)][p2] \u003D v + distMM[p1][p2]\u000A            #print(dp)\u000A            ans \u003D float(\u0027inf\u0027)\u000A            for p,v in dp[(1 \u003C\u003C mLen) \u002D 1].items():\u000A                ans \u003D min(ans,v + distMT[p])\u000A        return \u002D1 if ans \u003D\u003D float(\u0027inf\u0027) else ans
+class Solution:
+    def minimalSteps(self, maze: List[str]) -> int:
+        # bfs + dp
+        # bfs部分
+        # 每次bfs的目标,是从某个点开始,经过任意一个O之后,到达任意一个之前没有到达过的M
+        # 所以在bfs的时候,除了记录位置,还需要记录是否曾经经过O
+        # 最后一次bfs,是从某个点开始,到达T
+        # dp部分
+        # 有num个M,需要确定光顾的先后顺序,使用dp解决
+        # 先将M - O - M的最小步数记录下来
+        # 用dp[mask][pos]记录
+        # mask是二进制形式表示的遍历情况(num<=16),有2 ** num种情况
+        # dp[mask][pos]表示已经遍历了mask为1的位置所在的M,目前在第pos个M的位置,需要的最小步数
+        di = [(-1,0),(1,0),(0,-1),(0,1)]
+        m = len(maze)
+        n = len(maze[0])
+        distMM = dict() # distMM[i][j]表示Ms[i]到Ms[j],且经过了一个O的最短距离
+        distMO = dict() # 表示Ms[i]到Os[j]的最短距离
+        # 计算从start开始,到达每个targets,需要的步数,记录到cache里
+        def bfs(start,targets,cache):
+            cnt = len(targets)
+            step = 0
+            counter = 0
+            fromP = {(start[0],start[1])}
+            visited = {(start[0],start[1])}
+            while fromP and counter < cnt:
+                step += 1
+                toP = set()
+                for fr,fc in fromP:
+                    for dr,dc in di:
+                        if 0 <= fr + dr < m and 0 <= fc + dc < n:
+                            if maze[fr + dr][fc + dc] == '#': continue
+                            if (fr + dr,fc + dc) not in visited:
+                                toP.add((fr + dr,fc + dc))
+                                visited.add((fr + dr,fc + dc))
+                                if (fr + dr,fc + dc) in targets:
+                                    cache[targets[(fr + dr,fc + dc)]] = step
+                                    counter += 1
+                fromP = toP
+        
+        Ms = dict()
+        Os = dict()
+        mLen = 0
+        oLen = 0
+        for i in range(m):
+            for j in range(n):
+                if maze[i][j] == 'M':
+                    Ms[(i,j)] = mLen
+                    mLen += 1
+                elif maze[i][j] == 'O':
+                    Os[(i,j)] = oLen
+                    oLen += 1
+                elif maze[i][j] == 'S':
+                    S = (i,j)
+                elif maze[i][j] == 'T':
+                    T = (i,j)
+        #print(Ms)
+        #print(Os)
+        if mLen == 0:   # 没有M,只需要从S到T
+            Ts = {T:0}
+            distST = [float('inf')]
+            #print(S,Ts)
+            bfs(S,Ts,distST)
+            #print(distST)
+            ans = distST[0]
+        else:
+            distMO = [[float('inf')] * oLen for _ in range(mLen)]
+            for k,v in Ms.items():
+                bfs(k,Os,distMO[v])
+            #print('MO',distMO)
+            distMM = [[float('inf')] * mLen for _ in range(mLen)]
+            for i in range(mLen):
+                for j in range(mLen):
+                    if i == j:
+                        continue
+                    for k in range(oLen):
+                        distMM[i][j] = min(distMM[i][j],distMO[i][k] + distMO[j][k])
+            #print('MM',distMM)
+            # 计算S到Os的距离
+            distSO = [float('inf')] * oLen
+            bfs(S,Os,distSO)
+            #print(distSO)
+            # 计算S到Ms,且经过了一个O的最短距离
+            distSM = [float('inf')] * mLen
+            for i in range(mLen):
+                for j in range(oLen):
+                    distSM[i] = min(distSM[i],distSO[j] + distMO[i][j])
+            #print(distSM)
+            # 计算Ms到T的距离
+            distMT = [float('inf')] * mLen
+            bfs(T,Ms,distMT)
+            #print(distMT)
+            #dp部分
+            dp = [dict() for _ in range(1 << mLen)]
+            for p in range(mLen):
+                dp[1 << p][p] = distSM[p]
+            for mask in range(1,1 << mLen):
+                # 从dp[mask][p1]状态到p2点
+                for p1,v in dp[mask].items():
+                    for p2 in range(mLen):
+                        if p1 == p2 or mask & (1 << mask):
+                            continue
+                        if p2 in dp[mask | (1 << p2)]:
+                            dp[mask | (1 << p2)][p2] = min(dp[mask | (1 << p2)][p2],v + distMM[p1][p2])
+                        else:
+                            dp[mask | (1 << p2)][p2] = v + distMM[p1][p2]
+            #print(dp)
+            ans = float('inf')
+            for p,v in dp[(1 << mLen) - 1].items():
+                ans = min(ans,v + distMT[p])
+        return -1 if ans == float('inf') else ans

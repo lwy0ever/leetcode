@@ -1,1 +1,18 @@
-class Solution:\u000A    def divisorGame(self, N: int) \u002D\u003E bool:\u000A        # 找规律,奇数输,偶数赢\u000A        return N \u0026 1 \u003D\u003D 0\u000A        \u000A        # 递推\u000A        \u0027\u0027\u0027\u000A        dp \u003D [False]    # dp[i] 表示N \u003D i + 1时的胜负情况\u000A        for i in range(2,N + 1):\u000A            for x in range(1,i):\u000A                if i % x \u003D\u003D 0 and dp[i \u002D x \u002D 1] \u003D\u003D False:\u000A                    dp.append(True)\u000A                    break\u000A            else:\u000A                dp.append(False)\u000A        #print(dp)\u000A        return dp[\u002D1]\u000A        \u0027\u0027\u0027
+class Solution:
+    def divisorGame(self, N: int) -> bool:
+        # 找规律,奇数输,偶数赢
+        return N & 1 == 0
+        
+        # 递推
+        '''
+        dp = [False]    # dp[i] 表示N = i + 1时的胜负情况
+        for i in range(2,N + 1):
+            for x in range(1,i):
+                if i % x == 0 and dp[i - x - 1] == False:
+                    dp.append(True)
+                    break
+            else:
+                dp.append(False)
+        #print(dp)
+        return dp[-1]
+        '''

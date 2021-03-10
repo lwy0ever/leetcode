@@ -1,1 +1,35 @@
-class Solution:\u000A    def updateBoard(self, board: List[List[str]], click: List[int]) \u002D\u003E List[List[str]]:\u000A        if board[click[0]][click[1]] \u003D\u003D \u0027M\u0027:\u000A            board[click[0]][click[1]] \u003D \u0027X\u0027\u000A            return board\u000A        m \u003D len(board)\u000A        n \u003D len(board[0])\u000A        di \u003D []\u000A        for x in range(\u002D1,2):\u000A            for y in range(\u002D1,2):\u000A                if x \u003D\u003D 0 and y \u003D\u003D 0:\u000A                    continue\u000A                di.append((x,y))\u000A        # bfs\u000A        fromP \u003D {tuple(click)}\u000A        visited \u003D set()\u000A        while fromP:\u000A            toP \u003D set()\u000A            for fx,fy in fromP:\u000A                if board[fx][fy] \u003D\u003D \u0027E\u0027:\u000A                    cnt \u003D 0\u000A                    for dx,dy in di:\u000A                        if 0 \u003C\u003D fx + dx \u003C m and 0 \u003C\u003D fy + dy \u003C n and board[fx + dx][fy + dy] \u003D\u003D \u0027M\u0027:\u000A                            cnt +\u003D 1\u000A                    if cnt \u003E 0:\u000A                        board[fx][fy] \u003D str(cnt)\u000A                    else:\u000A                        board[fx][fy] \u003D \u0027B\u0027\u000A                        for dx,dy in di:\u000A                            if 0 \u003C\u003D fx + dx \u003C m and 0 \u003C\u003D fy + dy \u003C n:\u000A                                toP.add((fx + dx,fy + dy))\u000A                    visited.add((fx,fy))\u000A            fromP \u003D toP\u000A        return board\u000A                
+class Solution:
+    def updateBoard(self, board: List[List[str]], click: List[int]) -> List[List[str]]:
+        if board[click[0]][click[1]] == 'M':
+            board[click[0]][click[1]] = 'X'
+            return board
+        m = len(board)
+        n = len(board[0])
+        di = []
+        for x in range(-1,2):
+            for y in range(-1,2):
+                if x == 0 and y == 0:
+                    continue
+                di.append((x,y))
+        # bfs
+        fromP = {tuple(click)}
+        visited = set()
+        while fromP:
+            toP = set()
+            for fx,fy in fromP:
+                if board[fx][fy] == 'E':
+                    cnt = 0
+                    for dx,dy in di:
+                        if 0 <= fx + dx < m and 0 <= fy + dy < n and board[fx + dx][fy + dy] == 'M':
+                            cnt += 1
+                    if cnt > 0:
+                        board[fx][fy] = str(cnt)
+                    else:
+                        board[fx][fy] = 'B'
+                        for dx,dy in di:
+                            if 0 <= fx + dx < m and 0 <= fy + dy < n:
+                                toP.add((fx + dx,fy + dy))
+                    visited.add((fx,fy))
+            fromP = toP
+        return board
+                

@@ -1,1 +1,8 @@
-class Solution:\u000A    def isSubsequence(self, s: str, t: str) \u002D\u003E bool:\u000A        loc \u003D \u002D1\u000A        for c in s:\u000A            loc \u003D t.find(c,loc + 1)\u000A            if loc \u003D\u003D \u002D1:\u000A                return False\u000A        return True
+class Solution:
+    def isSubsequence(self, s: str, t: str) -> bool:
+        loc = -1
+        for c in s:
+            loc = t.find(c,loc + 1)
+            if loc == -1:
+                return False
+        return True

@@ -1,1 +1,24 @@
-class Solution:\u000A    def palindromePairs(self, words: List[str]) \u002D\u003E List[List[int]]:\u000A        pal \u003D dict()  # 存储自身就是回文串的word的位置\u000A        rev_pos \u003D dict()    # 存储反转字符串的位置信息\u000A        for i,w in enumerate(words):\u000A            rev_pos[w[::\u002D1]] \u003D i\u000A            if w \u003D\u003D w[::\u002D1]:\u000A                pal[w] \u003D i\u000A        ans \u003D []\u000A        for i,w in enumerate(words):\u000A            if w:\u000A                for j in range(len(w)):\u000A                    left,right \u003D w[:j],w[j:]\u000A                    # left已经是回文,左侧加入right的反转\u000A                    if left \u003D\u003D left[::\u002D1] and right in rev_pos and rev_pos[right] !\u003D i:\u000A                        ans.append([rev_pos[right],i])\u000A                    # right已经是回文,右侧加入left的反转\u000A                    if right \u003D\u003D right[::\u002D1] and left in rev_pos and rev_pos[left] !\u003D i:\u000A                        ans.append([i,rev_pos[left]])\u000A            else:\u000A                for p in pal:\u000A                    if pal[p] !\u003D i:\u000A                        ans.append([i,pal[p]])\u000A        return ans
+class Solution:
+    def palindromePairs(self, words: List[str]) -> List[List[int]]:
+        pal = dict()  # 存储自身就是回文串的word的位置
+        rev_pos = dict()    # 存储反转字符串的位置信息
+        for i,w in enumerate(words):
+            rev_pos[w[::-1]] = i
+            if w == w[::-1]:
+                pal[w] = i
+        ans = []
+        for i,w in enumerate(words):
+            if w:
+                for j in range(len(w)):
+                    left,right = w[:j],w[j:]
+                    # left已经是回文,左侧加入right的反转
+                    if left == left[::-1] and right in rev_pos and rev_pos[right] != i:
+                        ans.append([rev_pos[right],i])
+                    # right已经是回文,右侧加入left的反转
+                    if right == right[::-1] and left in rev_pos and rev_pos[left] != i:
+                        ans.append([i,rev_pos[left]])
+            else:
+                for p in pal:
+                    if pal[p] != i:
+                        ans.append([i,pal[p]])
+        return ans

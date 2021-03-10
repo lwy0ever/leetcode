@@ -1,1 +1,12 @@
-class Solution:\u000A    def countSubstrings(self, s: str) \u002D\u003E int:\u000A        # 如果s[i:j]是回文串,则s[i + 1:j \u002D 1],s[i + 2:j \u002D 2]...也是\u000A        n \u003D len(s)\u000A        mid \u003D [False] * (n * 2) # 记录(i + j),相当于s[i:j]的中间位置的2倍,以避免重复\u000A        ans \u003D 0\u000A        for i in range(n):\u000A            for j in range(n,i,\u002D1):\u000A                if not mid[i + j] and s[i:j] \u003D\u003D s[i:j][::\u002D1]:\u000A                    mid[i + j] \u003D True\u000A                    ans +\u003D (j \u002D i + 1) // 2\u000A        return ans
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        # 如果s[i:j]是回文串,则s[i + 1:j - 1],s[i + 2:j - 2]...也是
+        n = len(s)
+        mid = [False] * (n * 2) # 记录(i + j),相当于s[i:j]的中间位置的2倍,以避免重复
+        ans = 0
+        for i in range(n):
+            for j in range(n,i,-1):
+                if not mid[i + j] and s[i:j] == s[i:j][::-1]:
+                    mid[i + j] = True
+                    ans += (j - i + 1) // 2
+        return ans

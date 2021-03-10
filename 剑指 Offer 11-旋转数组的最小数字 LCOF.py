@@ -1,1 +1,18 @@
-class Solution:\u000A    def minArray(self, numbers: List[int]) \u002D\u003E int:\u000A        # 类似二分查找\u000A        l \u003D 0\u000A        r \u003D len(numbers) \u002D 1\u000A        while l \u003C r:\u000A            # 未旋转\u000A            if numbers[l] \u003C numbers[r]:\u000A                return numbers[l]\u000A            m \u003D (l + r) // 2\u000A            #print(l,m,r)\u000A            if numbers[l] \u003C numbers[m]: # 前一半是升序\u000A                l \u003D m\u000A            elif numbers[l] \u003E numbers[m]:\u000A                r \u003D m\u000A            else:   # numbers[l] \u003D\u003D numbers[m],无法判断\u000A                l +\u003D 1\u000A        return numbers[l]
+class Solution:
+    def minArray(self, numbers: List[int]) -> int:
+        # 类似二分查找
+        l = 0
+        r = len(numbers) - 1
+        while l < r:
+            # 未旋转
+            if numbers[l] < numbers[r]:
+                return numbers[l]
+            m = (l + r) // 2
+            #print(l,m,r)
+            if numbers[l] < numbers[m]: # 前一半是升序
+                l = m
+            elif numbers[l] > numbers[m]:
+                r = m
+            else:   # numbers[l] == numbers[m],无法判断
+                l += 1
+        return numbers[l]

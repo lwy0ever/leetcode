@@ -1,1 +1,25 @@
-class Solution:\u000A    def minOperations(self, nums: List[int]) \u002D\u003E int:\u000A        # 考虑其中一个数字nums[i],从0达到nums[i],要经过a[i]次+1,b[i]次*2\u000A        # 1 * 2的效率和1 + 1的效率相同\u000A        # 其余的情况下,*2的效率必然大于+1的效率\u000A        # 同时,b[i]可以共享操作\u000A        # 所以*2的效率最高\u000A        # 也就是,对于nums[i]\u000A        # 如果是偶数,//2最好\u000A        # 如果是奇数,先\u002D1,然后再//2\u000A        n \u003D len(nums)\u000A        a \u003D 0\u000A        bmax \u003D 0\u000A        for i in range(n):\u000A            x \u003D nums[i]\u000A            b \u003D 0\u000A            while x \u003E 0:\u000A                if x \u0026 1 \u003D\u003D 0:\u000A                    x \u003E\u003E\u003D 1\u000A                    b +\u003D 1\u000A                else:\u000A                    x ^\u003D 1\u000A                    a +\u003D 1\u000A            bmax \u003D max(bmax,b)\u000A        return a + bmax
+class Solution:
+    def minOperations(self, nums: List[int]) -> int:
+        # 考虑其中一个数字nums[i],从0达到nums[i],要经过a[i]次+1,b[i]次*2
+        # 1 * 2的效率和1 + 1的效率相同
+        # 其余的情况下,*2的效率必然大于+1的效率
+        # 同时,b[i]可以共享操作
+        # 所以*2的效率最高
+        # 也就是,对于nums[i]
+        # 如果是偶数,//2最好
+        # 如果是奇数,先-1,然后再//2
+        n = len(nums)
+        a = 0
+        bmax = 0
+        for i in range(n):
+            x = nums[i]
+            b = 0
+            while x > 0:
+                if x & 1 == 0:
+                    x >>= 1
+                    b += 1
+                else:
+                    x ^= 1
+                    a += 1
+            bmax = max(bmax,b)
+        return a + bmax

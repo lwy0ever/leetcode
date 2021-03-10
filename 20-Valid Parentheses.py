@@ -1,1 +1,13 @@
-class Solution:\u000A    def isValid(self, s: str) \u002D\u003E bool:\u000A        pair \u003D {\u0027)\u0027:\u0027(\u0027,\u0027]\u0027:\u0027[\u0027,\u0027}\u0027:\u0027{\u0027}\u000A        stack \u003D []\u000A        for c in s:\u000A            if c in pair:\u000A                if stack and stack[\u002D1] \u003D\u003D pair[c]:\u000A                    stack.pop()\u000A                else:\u000A                    return False\u000A            else:\u000A                stack.append(c)\u000A        return not stack
+class Solution:
+    def isValid(self, s: str) -> bool:
+        pair = {')':'(',']':'[','}':'{'}
+        stack = []
+        for c in s:
+            if c in pair:
+                if stack and stack[-1] == pair[c]:
+                    stack.pop()
+                else:
+                    return False
+            else:
+                stack.append(c)
+        return not stack

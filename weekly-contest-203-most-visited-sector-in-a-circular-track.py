@@ -1,1 +1,12 @@
-class Solution:\u000A    def mostVisited(self, n: int, rounds: List[int]) \u002D\u003E List[int]:\u000A        # 其实就是从rounds[0]开始,转若干圈之后到rounds[\u002D1]\u000A        # 如果rounds[0] \u003D\u003D rounds[\u002D1],经过最多的就是rounds[0]\u000A        # 如果rounds[0] \u003C rounds[\u002D1],经过最多的就是rounds[0]...rounds[\u002D1]\u000A        # 如果rounds[0] \u003E rounds[\u002D1],经过最多的就是1...rounds[\u002D1]和rounds[0]...n\u000A        if rounds[0] \u003D\u003D rounds[\u002D1]:\u000A            return [rounds[0]]\u000A        elif rounds[0] \u003C rounds[\u002D1]:\u000A            return list(range(rounds[0],rounds[\u002D1] + 1))\u000A        else:   # rounds[0] \u003E rounds[\u002D1]\u000A            return list(range(1,rounds[\u002D1] + 1)) + list(range(rounds[0],n + 1))
+class Solution:
+    def mostVisited(self, n: int, rounds: List[int]) -> List[int]:
+        # 其实就是从rounds[0]开始,转若干圈之后到rounds[-1]
+        # 如果rounds[0] == rounds[-1],经过最多的就是rounds[0]
+        # 如果rounds[0] < rounds[-1],经过最多的就是rounds[0]...rounds[-1]
+        # 如果rounds[0] > rounds[-1],经过最多的就是1...rounds[-1]和rounds[0]...n
+        if rounds[0] == rounds[-1]:
+            return [rounds[0]]
+        elif rounds[0] < rounds[-1]:
+            return list(range(rounds[0],rounds[-1] + 1))
+        else:   # rounds[0] > rounds[-1]
+            return list(range(1,rounds[-1] + 1)) + list(range(rounds[0],n + 1))

@@ -1,1 +1,37 @@
-# Definition for a binary tree node.\u000A# class TreeNode:\u000A#     def __init__(self, x):\u000A#         self.val \u003D x\u000A#         self.left \u003D None\u000A#         self.right \u003D None\u000A\u000Aclass Solution:\u000A    def generateTrees(self, n: int) \u002D\u003E List[TreeNode]:\u000A        cache \u003D dict()\u000A\u000A        def dfs(left,right):    # 返回[left,right]形成的所有可能的二叉搜索树的根节点列表\u000A            if left \u003E right:\u000A                return [None]   # 返回None,而不是[],是为了保证能够正确的遍历left_tree和right_tree\u000A            if (left,right) in cache:\u000A                return cache[(left,right)]\u000A\u000A            ans \u003D []\u000A\u000A            for i in range(left,right + 1):\u000A                # all possible left subtrees if i is choosen to be a root\u000A                left_tree \u003D dfs(left,i \u002D 1)\u000A                # all possible right subtrees if i is choosen to be a root\u000A                right_tree \u003D dfs(i + 1,right)\u000A                \u000A                # connect left and right subtrees to the root i\u000A                for l in left_tree:\u000A                    for r in right_tree:\u000A                        tn \u003D TreeNode(i)\u000A                        tn.left \u003D l\u000A                        tn.right \u003D r\u000A                        ans.append(tn)\u000A\u000A            cache[(left,right)] \u003D ans\u000A            return ans\u000A        \u000A        return dfs(1,n) if n \u003E 0 else []
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def generateTrees(self, n: int) -> List[TreeNode]:
+        cache = dict()
+
+        def dfs(left,right):    # 返回[left,right]形成的所有可能的二叉搜索树的根节点列表
+            if left > right:
+                return [None]   # 返回None,而不是[],是为了保证能够正确的遍历left_tree和right_tree
+            if (left,right) in cache:
+                return cache[(left,right)]
+
+            ans = []
+
+            for i in range(left,right + 1):
+                # all possible left subtrees if i is choosen to be a root
+                left_tree = dfs(left,i - 1)
+                # all possible right subtrees if i is choosen to be a root
+                right_tree = dfs(i + 1,right)
+                
+                # connect left and right subtrees to the root i
+                for l in left_tree:
+                    for r in right_tree:
+                        tn = TreeNode(i)
+                        tn.left = l
+                        tn.right = r
+                        ans.append(tn)
+
+            cache[(left,right)] = ans
+            return ans
+        
+        return dfs(1,n) if n > 0 else []

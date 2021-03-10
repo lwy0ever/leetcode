@@ -6,9 +6,11 @@
 #         self.right = None
 
 class Solution:
-    all = {0:[],1:[TreeNode(0)]}
+    all = {1:[TreeNode(0)]}
 
     def allPossibleFBT(self, N: int) -> List[TreeNode]:
+        if N & 1 == 0:
+            return []
         if N not in self.all:
             ans = []
             for left in range(1,N,2):
@@ -20,6 +22,7 @@ class Solution:
                         node.right = rightPossible
                         ans.append(node)
                 self.all[N] = ans
+            #print(self.all)
         return self.all[N]
         
         

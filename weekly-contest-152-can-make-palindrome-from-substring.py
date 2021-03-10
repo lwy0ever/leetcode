@@ -9,7 +9,7 @@ class Solution:
         for c in s:
             dic ^= 1 << (ord(c) - base)
             dp.append(dic)
-        print(dp)
+        #print(dp)
         
         for l,r,k in queries:
             n = dp[r + 1] ^ dp[l]

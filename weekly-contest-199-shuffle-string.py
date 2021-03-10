@@ -1,1 +1,7 @@
-class Solution:\u000A    def restoreString(self, s: str, indices: List[int]) \u002D\u003E str:\u000A        n \u003D len(s)\u000A        ans \u003D [None] * n\u000A        for i in range(n):\u000A            ans[indices[i]] \u003D s[i]\u000A        return \u0027\u0027.join(ans)
+class Solution:
+    def restoreString(self, s: str, indices: List[int]) -> str:
+        n = len(s)
+        ans = [None] * n
+        for i in range(n):
+            ans[indices[i]] = s[i]
+        return ''.join(ans)

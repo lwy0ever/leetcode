@@ -6,11 +6,12 @@ class Solution:
         m = len(heights)
         n = len(heights[0])
         status = [(0,0,0)]   # status[i] = (e,x,y)表示到达(x,y)所需要的体力是e
-        visited = set((0,0))
+        visited = set()
         while True:
             e,fx,fy = heapq.heappop(status)
             if fx == m - 1 and fy == n - 1:
                 return e
+            #print(fx,fy,visited)
             if (fx,fy) in visited:
                 continue
             visited.add((fx,fy))

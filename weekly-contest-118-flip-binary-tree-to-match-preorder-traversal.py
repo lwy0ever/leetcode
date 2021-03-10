@@ -19,26 +19,13 @@ class Solution:
             elif node.val != voyage[p]:
                 return [-1]
             #print(voyage[p],node.val,p)
-            if node.left and node.right:
-                if node.left.val == voyage[p + 1]:
-                    stack.append(node.right)
-                    stack.append(node.left)
-                elif node.right.val == voyage[p + 1]:
-                    ans.append(node.val)
-                    stack.append(node.left)
-                    stack.append(node.right)
-                else:
-                    return [-1]
-            elif node.left:
-                if node.left.val == voyage[p + 1]:
-                    stack.append(node.left)
-                else:
-                    return [-1]
-            elif node.right:
-                if node.right.val == voyage[p + 1]:
-                    stack.append(node.right)
-                else:
-                    return [-1]
+            if node.left and node.right and node.right.val == voyage[p + 1]:
+                ans.append(node.val)
+                stack.append(node.left)
+                stack.append(node.right)
+            else:
+                stack.append(node.right)
+                stack.append(node.left)
             p += 1
         return ans
                     

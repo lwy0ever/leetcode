@@ -11,5 +11,5 @@ class Solution:
                 nw = w[:i] + w[i + 1:]
                 preS.append(preNumber[nw])
             preNumber[w] = max(preS) + 1
-        print(preNumber)
+        #print(preNumber)
         return max(preNumber.values())

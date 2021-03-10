@@ -1,1 +1,12 @@
-class Solution:\u000A    def minOperations(self, n: int) \u002D\u003E int:\u000A        # 最终目标是(1 + (2 * (n \u002D 1) + 1)) / 2 \u003D\u003E n\u000A        # 所以arr[0] \u003D 1,需要操作n \u002D 1次\u000A        # arr[1] \u003D 3,需要操作n \u002D 3次\u000A        # ...\u000A        if n \u0026 1:   # 奇数\u000A            # 需要n\u002D1次,n\u002D3次...2次,0次\u000A            return ((n \u002D 1) + 2) * (n // 2) // 2\u000A        else:   # 偶数\u000A            # 需要n\u002D1次,n\u002D3次...3次,1次\u000A            return ((n \u002D 1) + 1) * (n // 2) // 2
+class Solution:
+    def minOperations(self, n: int) -> int:
+        # 最终目标是(1 + (2 * (n - 1) + 1)) / 2 => n
+        # 所以arr[0] = 1,需要操作n - 1次
+        # arr[1] = 3,需要操作n - 3次
+        # ...
+        if n & 1:   # 奇数
+            # 需要n-1次,n-3次...2次,0次
+            return ((n - 1) + 2) * (n // 2) // 2
+        else:   # 偶数
+            # 需要n-1次,n-3次...3次,1次
+            return ((n - 1) + 1) * (n // 2) // 2

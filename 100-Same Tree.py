@@ -1,1 +1,19 @@
-# Definition for a binary tree node.\u000A# class TreeNode:\u000A#     def __init__(self, x):\u000A#         self.val \u003D x\u000A#         self.left \u003D None\u000A#         self.right \u003D None\u000A\u000Aclass Solution:\u000A    def isSameTree(self, p: TreeNode, q: TreeNode) \u002D\u003E bool:\u000A        def dfs(p,q):\u000A            if bool(p) !\u003D bool(q):  # 一个为None，一个非None\u000A                return False\u000A            if not p:   # 两个都是None\u000A                return True\u000A            if p.val !\u003D q.val:\u000A                return False\u000A            return dfs(p.left,q.left) and dfs(p.right,q.right)\u000A        \u000A        return dfs(p,q)
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
+        def dfs(p,q):
+            if bool(p) != bool(q):  # 一个为None，一个非None
+                return False
+            if not p:   # 两个都是None
+                return True
+            if p.val != q.val:
+                return False
+            return dfs(p.left,q.left) and dfs(p.right,q.right)
+        
+        return dfs(p,q)

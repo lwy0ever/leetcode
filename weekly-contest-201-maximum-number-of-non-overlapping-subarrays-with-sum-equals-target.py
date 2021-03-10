@@ -1,1 +1,16 @@
-class Solution:\u000A    def maxNonOverlapping(self, nums: List[int], target: int) \u002D\u003E int:\u000A        # 要求的是最大数目,所以有满足条件的,就应该马上组成\u000A        ans \u003D 0\u000A        pre \u003D {0} # 记录之前出现的和\u000A        s \u003D 0\u000A        for n in nums:\u000A            s +\u003D n\u000A            #print(s,pre)\u000A            if s \u002D target in pre:\u000A                ans +\u003D 1\u000A                pre \u003D {0}\u000A                s \u003D 0\u000A            else:\u000A                pre.add(s)\u000A        return ans
+class Solution:
+    def maxNonOverlapping(self, nums: List[int], target: int) -> int:
+        # 要求的是最大数目,所以有满足条件的,就应该马上组成
+        ans = 0
+        pre = {0} # 记录之前出现的和
+        s = 0
+        for n in nums:
+            s += n
+            #print(s,pre)
+            if s - target in pre:
+                ans += 1
+                pre = {0}
+                s = 0
+            else:
+                pre.add(s)
+        return ans

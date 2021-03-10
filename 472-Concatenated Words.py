@@ -1,1 +1,64 @@
-class Solution:\u000A    def findAllConcatenatedWordsInADict(self, words: List[str]) \u002D\u003E List[str]:\u000A        # 方法1:字典树\u000A        \u0027\u0027\u0027\u000A        tree \u003D dict()\u000A        for w in words:\u000A            if w:   # 当w \u003D\u003D \u0027\u0027时,cur[\u0027#\u0027] \u003D None相当于tree[\u0027#\u0027] \u003D None,会无限匹配\u000A                cur \u003D tree\u000A                for c in w:\u000A                    cur \u003D cur.setdefault(c,dict())\u000A                cur[\u0027#\u0027] \u003D None  # 设置#为结束位标志\u000A        #print(tree)\u000A        \u000A        # 从cur中查找word[pos],已经有cnt个完整的单词被找到\u000A        def dfs(word,pos,cnt,cur):\u000A            #print(word,pos,cnt,cur.keys())\u000A            if pos \u003D\u003D len(word):    # word的字符全部找到\u000A                if cnt \u003E 0 and \u0027#\u0027 in cur:  # cnt \u003E 0说明找到的不是word自身,# in cur说明是单词结尾\u000A                    return True\u000A                return False\u000A            if \u0027#\u0027 in cur:  # 一个单词结尾\u000A                if dfs(word,pos,cnt + 1,tree): # 从tree的开头再找\u000A                    return True\u000A            if word[pos] in cur:\u000A                if dfs(word,pos + 1,cnt,cur[word[pos]]):\u000A                    return True\u000A            return False\u000A        \u000A        ans \u003D []\u000A        for word in words:\u000A            if dfs(word,0,0,tree):\u000A                ans.append(word)\u000A        return ans\u000A        \u0027\u0027\u0027\u000A\u000A        # 方法2:哈希\u000A        words.sort(key \u003D len)   # 字符串只能由比它更短的字符串组成,所以按长度排序\u000A        #print(words)\u000A        lenSet \u003D set()\u000A        lens \u003D []\u000A        pre \u003D set()\u000A        \u000A        def check(word):\u000A            if word in pre:\u000A                return True\u000A            for l in lens:\u000A                if word[:l] in pre:\u000A                    if check(word[l:]):\u000A                        return True\u000A            return False\u000A        \u000A        ans \u003D []\u000A        for w in words:\u000A            #print(pre,lens,w)\u000A            if not w:   # 处理w \u003D\u003D \u0027\u0027时无限循环的问题\u000A                continue\u000A            if check(w):\u000A                ans.append(w)\u000A            pre.add(w)\u000A            l \u003D len(w)\u000A            if l not in lenSet:\u000A                lenSet.add(l)\u000A                lens.append(l)\u000A        return ans
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        # 方法1:字典树
+        '''
+        tree = dict()
+        for w in words:
+            if w:   # 当w == ''时,cur['#'] = None相当于tree['#'] = None,会无限匹配
+                cur = tree
+                for c in w:
+                    cur = cur.setdefault(c,dict())
+                cur['#'] = None  # 设置#为结束位标志
+        #print(tree)
+        
+        # 从cur中查找word[pos],已经有cnt个完整的单词被找到
+        def dfs(word,pos,cnt,cur):
+            #print(word,pos,cnt,cur.keys())
+            if pos == len(word):    # word的字符全部找到
+                if cnt > 0 and '#' in cur:  # cnt > 0说明找到的不是word自身,# in cur说明是单词结尾
+                    return True
+                return False
+            if '#' in cur:  # 一个单词结尾
+                if dfs(word,pos,cnt + 1,tree): # 从tree的开头再找
+                    return True
+            if word[pos] in cur:
+                if dfs(word,pos + 1,cnt,cur[word[pos]]):
+                    return True
+            return False
+        
+        ans = []
+        for word in words:
+            if dfs(word,0,0,tree):
+                ans.append(word)
+        return ans
+        '''
+
+        # 方法2:哈希
+        words.sort(key = len)   # 字符串只能由比它更短的字符串组成,所以按长度排序
+        #print(words)
+        lenSet = set()
+        lens = []
+        pre = set()
+        
+        def check(word):
+            if word in pre:
+                return True
+            for l in lens:
+                if word[:l] in pre:
+                    if check(word[l:]):
+                        return True
+            return False
+        
+        ans = []
+        for w in words:
+            #print(pre,lens,w)
+            if not w:   # 处理w == ''时无限循环的问题
+                continue
+            if check(w):
+                ans.append(w)
+            pre.add(w)
+            l = len(w)
+            if l not in lenSet:
+                lenSet.add(l)
+                lens.append(l)
+        return ans
