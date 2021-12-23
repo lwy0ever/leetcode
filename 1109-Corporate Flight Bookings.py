@@ -1,12 +1,13 @@
 class Solution:
     def corpFlightBookings(self, bookings: List[List[int]], n: int) -> List[int]:
-        m = [0] * (n + 1)
-        for i,j,k in bookings:
-            m[i - 1] += k
-            m[j] -= k
-        ans = []
-        c = 0
+        pre = [0] * (n + 2)
+        for f,l,s in bookings:
+            pre[f] += s
+            pre[l + 1] -= s
+        #print(pre)
+        ans = [0] * n
+        cnt = 0
         for i in range(n):
-            c += m[i]
-            ans.append(c)
+            cnt += pre[i + 1]
+            ans[i]  = cnt
         return ans

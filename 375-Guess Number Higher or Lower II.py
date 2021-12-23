@@ -1,5 +1,15 @@
 class Solution:
     def getMoneyAmount(self, n: int) -> int:
+        # 方法1
+        dp = [[0] * (n + 1) for _ in range(n + 1)]
+        for i in range(n - 1, 0, -1):
+            for j in range(i + 1, n + 1):
+                # 优化，不需要猜测左半区间
+                dp[i][j] = min(guess + max(dp[i][guess - 1], dp[guess + 1][j]) for guess in range((i + j) // 2, j))
+        return dp[1][n]
+
+        # 方法2
+        '''
         dp = {} # dp(i,j)表示猜测[i,j]需要的最小金额
         for i in range(1,n + 1):    # 长度为1的区间
             dp[(i,i)] = 0
@@ -15,4 +25,5 @@ class Solution:
                     res = guess + max(dp[(i,max(guess - 1,i))], dp[(min(guess + 1,j),j)])
                     mi = min(mi,res)
                 dp[(i,j)] = mi
-        return dp[(1,n)]        
+        return dp[(1,n)]
+        '''

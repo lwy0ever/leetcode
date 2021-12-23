@@ -13,14 +13,12 @@ class Solution:
             else:
                 r = mid
         return False
+    
         '''
-        if num == 1:
-            return True
-        t = 2
-        r = num // t
-        while t + 1 < r or r + 1 < t:
-            #print(t,r)
-            t = (t + r) // 2
-            r = num // t
-        return True if t * t == num else False
+        i = 1
+        while i * i <= num:
+            if i * i == num:
+                return True
+            i += 1
+        return False
         '''

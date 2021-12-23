@@ -1,12 +1,9 @@
 class Solution:
     def findPoisonedDuration(self, timeSeries: List[int], duration: int) -> int:
         ans = 0
-        ma = 0
+        mx = 0
         for t in timeSeries:
-            if t >= ma:
-                ans += duration
-            else:
-                ans += t + duration - ma
-            ma = t + duration
+            ans += duration if t > mx else t - mx + duration
+            mx = t + duration
+            #print(t,mx,ans)
         return ans
-                        

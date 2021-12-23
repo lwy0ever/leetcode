@@ -1,12 +1,11 @@
 class Solution:
     def plusOne(self, digits: List[int]) -> List[int]:
         n = len(digits)
-        r = (1,0)
+        r = 1   # 表示要加的数字(or进位)
         i = 1
-        while r[0] == 1 and i <= n:
-            r = divmod(digits[-i] + r[0],10)
-            digits[-i] = r[1]
+        while r > 0 and i <= n:
+            r,digits[-i] = divmod(digits[-i] + r,10)
             i += 1
-        if r[0] == 1:
-            digits.insert(0,r[0])
+        if r > 0:
+            digits.insert(0,r)
         return digits

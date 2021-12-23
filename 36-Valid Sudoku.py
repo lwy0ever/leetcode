@@ -1,6 +1,7 @@
 class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
         n = 9
+        # 判断行、列是否有重复数字
         for i in range(n):
             h = set()   # 横向
             v = set()   # 纵向
@@ -13,6 +14,7 @@ class Solution:
                     if board[j][i] in v:
                         return False
                     v.add(board[j][i])
+        # 判断每个3x3是否有重复数字
         for i in range(n // 3):
             for j in range(n // 3):
                 s = set()

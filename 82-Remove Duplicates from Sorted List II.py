@@ -8,16 +8,14 @@ class Solution:
     def deleteDuplicates(self, head: ListNode) -> ListNode:
         ans = ListNode(0)
         ans.next = head
-        pre = None
         cur = ans
-        while cur:
-            pre = cur
-            cur = cur.next
-            while cur and cur.next and cur.val == cur.next.val:
-                t = cur.val
-                while cur and cur.val == t:
-                    cur = cur.next
-                pre.next = cur
+        while cur.next and cur.next.next:
+            if cur.next.val == cur.next.next.val:
+                t = cur.next.val
+                while cur.next and cur.next.val == t:
+                    cur.next = cur.next.next
+            else:
+                cur = cur.next
         return ans.next
         '''
         ans = ListNode(0)

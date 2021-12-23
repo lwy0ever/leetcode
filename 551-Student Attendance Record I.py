@@ -1,15 +1,17 @@
 class Solution:
     def checkRecord(self, s: str) -> bool:
-        a = 0
-        l = 0
+        cntA = 0
+        cntL = 0
         for c in s:
             if c == 'A':
-                a += 1
-                l = 0
+                cntA += 1
+                if cntA > 1:
+                    return False
+                cntL = 0
             elif c == 'L':
-                l += 1
+                cntL += 1
+                if cntL >= 3:
+                    return False
             else:
-                l = 0
-            if a > 1 or l > 2:
-                return False
+                cntL = 0
         return True

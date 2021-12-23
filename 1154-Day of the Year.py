@@ -1,4 +1,4 @@
-import time
 class Solution:
-    def ordinalOfDate(self, date: str) -> int:
+    def dayOfYear(self, date: str) -> int:
+        import time
         return time.strptime(date,'%Y-%m-%d').tm_yday

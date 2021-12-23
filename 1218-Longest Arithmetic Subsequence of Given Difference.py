@@ -1,9 +1,6 @@
 class Solution:
     def longestSubsequence(self, arr: List[int], difference: int) -> int:
-        d = {}
+        pre = dict()    # pre[i] = n,表示i出现过,以其结尾的最大子序列长度为n
         for a in arr:
-            if a - difference in d:
-                d[a] = max(d.get(a,0),d[a - difference] + 1)
-            else:
-                d[a] = 1
-        return max(d.values())
+            pre[a] = max(pre.get(a,1),pre.get(a - difference,0) + 1)
+        return max(pre.values())

@@ -11,4 +11,4 @@ class Solution:
             for j in range(pn):
                 if res[-1] == res[ind[j]] * primes[j]:  # 索引指向丑数序列中的下一个丑数
                     ind[j] += 1
-        return res[-1]        
+        return res[-1]

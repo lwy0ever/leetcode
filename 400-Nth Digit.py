@@ -20,7 +20,5 @@ class Solution:
             ans = base + a - 1
         else:
             ans = base + a
-        return str(ans)[b - 1]
-        
-        
-        
+        return ans // (10 ** (length - b)) % 10
+        #return str(ans)[b - 1]

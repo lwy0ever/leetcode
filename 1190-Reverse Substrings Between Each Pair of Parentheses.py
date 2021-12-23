@@ -1,23 +1,27 @@
 class Solution:
     def reverseParentheses(self, s: str) -> str:
-        ans = ''
-        #print(s)
-        n = len(s)
-        cnt = 0
-        l = 0
-        r = 0
-        for i in range(n):
-            if s[i] == '(':
-                if cnt == 0:
-                    l = i
-                cnt += 1
-            elif s[i] == ')':
-                cnt -= 1
-                if cnt == 0:
-                    #print(l,i,s[i - 1:l:-1])
-                    ans += self.reverseParentheses(s[i - 1:l:-1].replace('(','|').replace(')','(').replace('|',')'))
-            elif cnt == 0:
-                ans += s[i]
-                #print(ans)
-        return ans
-                    
+        self.i = 0
+        self.n = len(s)
+        def helper(reverse):
+            #print('call',i,reverse)
+            ans = []
+            while self.i < self.n:
+                #print(i,reverse)
+                if s[self.i] == '(':
+                    self.i += 1
+                    x = helper(-reverse)
+                    #print(x)
+                    if reverse:
+                        ans += x[::-1]
+                    else:
+                        ans += x
+                    #print(ans)
+                elif s[self.i] == ')':
+                    self.i += 1
+                    return ans
+                else:
+                    ans.append(s[self.i])
+                    self.i += 1
+            return ans
+        ans = helper(-1)
+        return ''.join(ans)

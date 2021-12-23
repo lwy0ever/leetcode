@@ -16,4 +16,4 @@ class Solution:
             # 取余范围限制在 [0, 2^32-1] 范围内
             a = (a ^ b) % MASK
             b = carry % MASK
-        return a if a <= MAX_INT else ~((a % MIN_INT) ^ MAX_INT)   
+        return a if a <= MAX_INT else ~((a % MIN_INT) ^ MAX_INT)

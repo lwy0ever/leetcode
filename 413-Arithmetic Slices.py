@@ -4,7 +4,7 @@ class Solution:
         n = len(A)
         if n <= 2:
             return 0
-        p = 0
+        p = 0   # 等差数列起始位置
         step = float('inf')
         for i in range(1,n):
             if A[i] - A[i - 1] != step:

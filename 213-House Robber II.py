@@ -20,4 +20,4 @@ class Solution:
         for n in nums[:-1]:
             pre1,pre2 = pre2 + n,max(pre1,pre2)
         plan2 = max(pre1,pre2)
-        return max(plan1,plan2)       
+        return max(plan1,plan2)   

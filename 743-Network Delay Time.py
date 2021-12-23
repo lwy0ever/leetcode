@@ -15,9 +15,8 @@ class Solution:
                 if u in ts:
                     for v in ts[u]:
                         if v not in visited:
-                            if v not in toP:
-                                toP[v] = fromP[u] + ts[u][v]
-                                visited[v] = fromP[u] + ts[u][v]
+                            toP[v] = fromP[u] + ts[u][v]
+                            visited[v] = fromP[u] + ts[u][v]
                         else:   # 检查到达该点的值是否是当前最少时间
                             if visited[v] > fromP[u] + ts[u][v]:    # 不是最少时间,更新该结点及以后的节点
                                 toP[v] = fromP[u] + ts[u][v]

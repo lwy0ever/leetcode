@@ -1,18 +1,20 @@
 class Solution:
     def countAndSay(self, n: int) -> str:
-        lastStr = '1'
-        if n == 1:
-            return lastStr
+        ans = '1'
         for _ in range(n - 1):
-            lc = lastStr[0]
-            cnt = 1
-            newstr = ''
-            for i in range(1,len(lastStr)):
-                if lastStr[i] != lc:
-                    newstr += str(cnt) + lc
-                    lc = lastStr[i]
-                    cnt = 1
-                else:
+            preAns = ans
+            preChar = ''
+            cnt = 0
+            ans = []
+            for c in preAns:
+                if c == preChar:
                     cnt += 1
-            lastStr = newstr + str(cnt) + lc
-        return lastStr
+                else:
+                    if cnt > 0:
+                        ans.append(str(cnt) + preChar)
+                    preChar = c
+                    cnt = 1
+            ans.append(str(cnt) + c)
+            ans = ''.join(ans)
+            #print(ans)
+        return ans

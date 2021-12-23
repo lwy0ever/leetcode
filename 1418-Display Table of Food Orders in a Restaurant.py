@@ -25,4 +25,3 @@ class Solution:
                     one.append('0')
             ans.append(one)
         return ans
-        

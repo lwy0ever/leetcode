@@ -51,4 +51,3 @@ class Solution:
         ans[9] = cnt['i']
         ans[1] = cnt['o']
         return ''.join([str(i) * ans[i] for i in range(10)])
-        

@@ -1,30 +1,27 @@
 # Definition for a binary tree node.
 # class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-from collections import defaultdict
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
-    def pathSum(self, root: TreeNode, sum: int) -> int:
-        def path(root,need):
-            res = 0
-            nn = [need[0]]
-            for n in need:
-                if root.val == n:
-                    res += 1
-                nn.append(n - root.val)
-            if root.left:
-                res += path(root.left,nn)
-            if root.right:
-                res += path(root.right,nn)
-            return res
-                            
-        #need = defaultdict(int)
-        #need[sum] += 1
-        need = [sum]
-        if root:
-            return path(root,need)
-        else:
-            return 0
+    def pathSum(self, root: TreeNode, targetSum: int) -> int:
+        self.ans = 0
+        self.targetSum = targetSum
+        preVal = collections.defaultdict(int)
+        preVal[0] = 1
+        # dfs
+        def dfs(preVal,s,node):
+            if not node:
+                return
+            s += node.val
+            #print(node.val,s,s - self.targetSum,preVal)
+            if s - self.targetSum in preVal:
+                self.ans += preVal[s - self.targetSum]
+            preVal[s] += 1
+            dfs(preVal,s,node.left)
+            dfs(preVal,s,node.right)
+            preVal[s] -= 1
+        
+        dfs(preVal,0,root)
+        return self.ans

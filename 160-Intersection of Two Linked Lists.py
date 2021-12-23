@@ -1,15 +1,11 @@
 # Definition for singly-linked list.
-# class ListNode(object):
+# class ListNode:
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
 
-class Solution(object):
-    def getIntersectionNode(self, headA, headB):
-        """
-        :type head1, head1: ListNode
-        :rtype: ListNode
-        """
+class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
         # 双指针法
         # 创建两个指针 pApA 和 pBpB，分别初始化为链表 A 和 B 的头结点。然后让它们向后逐结点遍历。
         # 当 pApA 到达链表的尾部时，将它重定位到链表 B 的头结点 (你没看错，就是链表 B); 类似的，当 pBpB 到达链表的尾部时，将它重定位到链表 A 的头结点。

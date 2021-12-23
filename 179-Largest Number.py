@@ -1,11 +1,16 @@
 class Solution:
     def largestNumber(self, nums: List[int]) -> str:
-        # 定义一个排序函数
-        def compare(x,y):
-            # 需要大在前,小在后
-            # 所以小于的时候返回1
-            return 1 if x + y < y + x else -1
-        s = map(str,nums)
+        # 定义一个针对字符串的排序函数
+        # 然后排序,连接
+
+        # 字符串比较函数
+        def c(x,y):
+            #print(x,y)
+            if x + y > y + x:
+                return -1
+            return 1
+        
         import functools
-        ans = ''.join(sorted(s,key = functools.cmp_to_key(compare)))
+        s = map(str,nums)
+        ans = ''.join(sorted(s,key = functools.cmp_to_key(c)))
         return '0' if ans[0] == '0' else ans

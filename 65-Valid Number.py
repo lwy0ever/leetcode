@@ -33,7 +33,7 @@ class Solution:
                 t = 2
             elif c == '.':
                 t = 3
-            elif c == 'e':
+            elif c in ('e','E'):
                 t = 4
             else:
                 t = 5

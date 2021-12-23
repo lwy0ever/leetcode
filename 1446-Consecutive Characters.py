@@ -1,6 +1,6 @@
 class Solution:
     def maxPower(self, s: str) -> int:
-        ans = 1
+        ans = 0
         pre = ''
         cnt = 0
         for c in s:
@@ -10,4 +10,5 @@ class Solution:
             else:
                 pre = c
                 cnt = 1
+                ans = max(ans,cnt)
         return ans

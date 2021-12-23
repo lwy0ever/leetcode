@@ -1,6 +1,8 @@
 class Solution:
     def totalHammingDistance(self, nums: List[int]) -> int:
-        #计算每一位出现1的次数，然后与len-次数相乘，然后求和
+        # 计算每一位出现1的次数
+        # 那么len-次数=0出现的次数
+        # 相乘,再求和,就是汉明距离和
         l, d = len(nums), collections.defaultdict(int)
         for n in nums:
             while n:
@@ -37,4 +39,3 @@ class Solution:
             ans += cnt(a ^ b)
         return ans
         '''
-
