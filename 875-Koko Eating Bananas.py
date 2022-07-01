@@ -1,19 +1,25 @@
 class Solution:
-    def minEatingSpeed(self, piles: List[int], H: int) -> int:
-        # 如果每个小时吃k个,是否可以吃完
-        def possible(k):
-            s = 0
+    def minEatingSpeed(self, piles: List[int], h: int) -> int:
+        # 二分查找
+        n = len(piles)
+
+        def tryToEat(k):
+            ttl = 0
             for p in piles:
-                s += (p - 1) // k + 1
-            return s <= H
-        
-        # 二分查找最小值
-        l = 1
+                ttl += (p - 1) // k + 1
+            return ttl <= h
+
+        # 由于h >= len(piles),所以最大为max(piles)
+        l = max(sum(piles) // h,1)
         r = max(piles)
-        while l < r:
+        ans = float('inf')
+        while l <= r:
             m = (l + r) // 2
-            if possible(m):
-                r = m
+            #print(m)
+            if tryToEat(m):
+                #print(f'{m} ok')
+                ans = min(ans,m)
+                r = m - 1
             else:
                 l = m + 1
-        return l
+        return ans

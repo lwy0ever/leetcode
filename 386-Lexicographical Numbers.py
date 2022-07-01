@@ -1,5 +1,6 @@
 class Solution:
     def lexicalOrder(self, n: int) -> List[int]:
+        # dfs
         def dfs(cur):
             #print(cur,n)
             ans.append(cur)

@@ -20,7 +20,7 @@ class Solution:
                 bl = helper(x + l,y,l)
                 br = helper(x + l,y + l,l)
                 if tl.isLeaf and tr.isLeaf and bl.isLeaf and br.isLeaf:
-                    if tl.val == tr.val and tl.val == bl.val and tl.val == br.val:
+                    if tl.val == tr.val == bl.val == br.val:
                         return Node(tl.val,True,None,None,None,None)
                 return Node(1,False,tl,tr,bl,br)
             else:

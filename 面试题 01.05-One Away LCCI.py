@@ -1,5 +1,18 @@
 class Solution:
     def oneEditAway(self, first: str, second: str) -> bool:
+        # method 1:
+        m,n = len(first),len(second)
+        if m < n:
+            return self.oneEditAway(second,first)
+        if m - n > 1:
+            return False
+        for i,(a,b) in enumerate(zip(first,second)):
+            if a != b:
+                return first[i + 1:] == second[i + 1:] if m == n else first[i + 1:] == second[i:]
+        return True
+
+        # method 2:
+        # dp
         n1 = len(first)
         n2 = len(second)
         # dp[i][j]表示使first[:i + 1]和second[:j + 1]一致,需要操作的次数

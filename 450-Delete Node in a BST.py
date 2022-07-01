@@ -1,12 +1,11 @@
 # Definition for a binary tree node.
 # class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
-    def deleteNode(self, root: TreeNode, key: int) -> TreeNode:
+    def deleteNode(self, root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
         # 1,先找到要删除的节点
         # 2,如果节点无子节点,则直接删除
         # 3,如果有子节点,将左子树的最右点or右子树的最左点,赋值到当前节点,并删除最右or左节点

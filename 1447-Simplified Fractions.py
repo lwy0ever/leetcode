@@ -1,13 +1,18 @@
 class Solution:
     def simplifiedFractions(self, n: int) -> List[str]:
-        def gcd(x,y):
-            if x % y == 0:
-                return y
-            return gcd(y,x % y)
-
+        def gcd(a,b):
+            if a < b:
+                a,b = b,a
+            while b != 0:
+                t = a % b
+                a = b
+                b = t
+            return a
+        
         ans = []
-        for i in range(2,n + 1):    # 分母
-            for j in range(1,i):    # 分子
-                if gcd(i,j) == 1:
-                    ans.append('%d/%d' % (j,i))
+        for i in range(1,n + 1):
+            for j in range(1,i):
+                if gcd(i,j) > 1:
+                    continue
+                ans.append(f'{j}/{i}')
         return ans

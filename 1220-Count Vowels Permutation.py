@@ -1,5 +1,18 @@
 class Solution:
     def countVowelPermutation(self, n: int) -> int:
+        # 换成array
+        m = 10 ** 9 + 7
+        t = [1,1,1,1,1]
+        for i in range(1,n):
+            nt = []
+            nt.append((t[1] + t[2] + t[4]) % m)
+            nt.append((t[0] + t[2]) % m)
+            nt.append((t[1] + t[3]) % m)
+            nt.append(t[2])
+            nt.append((t[2] + t[3]) % m)
+            t = nt
+        return sum(t) % m
+        
         # a -> e
         # e -> a,i
         # i -> a,e,o,u

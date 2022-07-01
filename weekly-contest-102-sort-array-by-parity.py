@@ -1,4 +1,4 @@
 class Solution:
-    def sortArrayByParity(self, A: List[int]) -> List[int]:
-        A.sort(key = lambda x:x % 2)
-        return A
+    def sortArrayByParity(self, nums: List[int]) -> List[int]:
+        nums.sort(key = lambda x:x & 1)
+        return nums

@@ -31,4 +31,3 @@ class Solution:
                 if valid(a,b,j):
                     return True
         return False
-                

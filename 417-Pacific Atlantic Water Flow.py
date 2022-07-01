@@ -1,8 +1,8 @@
 class Solution:
     def pacificAtlantic(self, matrix: List[List[int]]) -> List[List[int]]:
-        di = [(-1,0),(1,0),(0,1),(0,-1)]
         if not matrix:
             return []
+        di = [(-1,0),(1,0),(0,1),(0,-1)]
         n = len(matrix)
         m = len(matrix[0])
         # 2次bfs
@@ -36,5 +36,6 @@ class Solution:
             fromAtlantic.add((n - 1,i))
         canToAtlantic = bfs(fromAtlantic)
         
-        ans = canToPacific.intersection(canToAtlantic)
+        ans = canToPacific & canToAtlantic
+        #ans = canToPacific.intersection(canToAtlantic)
         return list(ans)
