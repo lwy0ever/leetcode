@@ -1,5 +1,6 @@
 class Solution:
     def magicalString(self, n: int) -> int:
+        # 双指针
         if n <= 1:
             return n
         s = [1,2,2]

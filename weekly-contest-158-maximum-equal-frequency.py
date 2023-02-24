@@ -1,5 +1,6 @@
 class Solution:
     def maxEqualFreq(self, nums: List[int]) -> int:
+        # 哈希
         l = len(nums)
         # d[i]表示i出现的次数
         d = collections.defaultdict(int)
@@ -20,7 +21,7 @@ class Solution:
             # 或者 只有一个元素出现1次,其余元素都出现maxFreq次
             if freq[1] == 1 and freq[maxFreq] * maxFreq + 1 == i + 1:
                 ans = i + 1
-            # 或者 所有元素都出现maxFreq次
+            # 或者 所有元素都出现1次
             if maxFreq == 1:
                 ans = i + 1
             #print(n,d,freq,maxFreq)

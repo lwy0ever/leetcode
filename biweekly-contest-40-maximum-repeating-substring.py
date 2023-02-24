@@ -1,5 +1,6 @@
 class Solution:
     def maxRepeating(self, sequence: str, word: str) -> int:
+        # 方法1:
         n = len(sequence)
         m = len(word)
         ans = 0
@@ -11,4 +12,3 @@ class Solution:
                 ind += m
             ans = max(ans,tans)
         return ans
-            

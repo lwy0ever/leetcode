@@ -1,6 +1,7 @@
-from collections import deque
 class Solution:
     def crackSafe(self, n: int, k: int) -> str:
+        '''
+        # 以前自己写的?
         ans = ['0'] * n
         visited = {'0'*(n-1):{'0'}}
         prefix = deque(ans[1:],maxlen = n - 1)
@@ -17,4 +18,26 @@ class Solution:
                     break
         #print(visited,prefix,ans)
 
-        return ''.join(ans)
+        return ''.join(ans)'''
+
+        # copy官方题解
+        # dfs + 暴力
+        visited = set()
+        ans = list()
+        mod = 10 ** (n - 1)
+
+        def dfs(tail):
+            for i in range(k):
+                nt = tail * 10 + i
+                if nt not in visited:
+                    # 先add visited
+                    # 然后dfs
+                    # 最后才add ans
+                    # 相当于ans是倒序的
+                    # ?所以最后补n - 1个0
+                    visited.add(nt)
+                    dfs(nt % mod)
+                    ans.append(str(i))
+
+        dfs(0)
+        return ''.join(ans) + '0' * (n - 1)

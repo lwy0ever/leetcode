@@ -1,5 +1,6 @@
 class Solution:
     def bestCoordinate(self, towers: List[List[int]], radius: int) -> List[int]:
+        # 枚举
         towers.sort()
         maxX = max(t[0] for t in towers)
         maxY = max(t[1] for t in towers)

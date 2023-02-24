@@ -1,16 +1,12 @@
 class Solution:
     def groupThePeople(self, groupSizes: List[int]) -> List[List[int]]:
-        ug = []
-        for u,g in enumerate(groupSizes):
-            ug.append((u,g))
-        ug.sort(key = lambda x:x[1])
-        print(ug)
         ans = []
-        oneGroup = []
-        for u,g in ug:
-            oneGroup.append(u)
-            if len(oneGroup) == g:
-                ans.append(oneGroup)
-                oneGroup = []
+        idxCnt = dict() # idxCnt[k] = v,表示当前包含v个人的数组下标.也就是ans[v]
+        for i,cnt in enumerate(groupSizes):
+            if cnt in idxCnt and len(ans[idxCnt[cnt]]) < cnt:
+                ans[idxCnt[cnt]].append(i)
+            else:
+                idxCnt[cnt] = len(ans)
+                ans.append([i])
+            #print(ans,idxCnt)
         return ans
-            

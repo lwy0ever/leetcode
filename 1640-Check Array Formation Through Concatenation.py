@@ -1,39 +1,21 @@
 class Solution:
     def canFormArray(self, arr: List[int], pieces: List[List[int]]) -> bool:
-        firstNum = dict()
-        for p in pieces:
-            firstNum[p[0]] = p
-        i = 0
+        # 注意arr[i]互不相同
+        # 所以任意一个arr[i],都是唯一的
+        pos = dict()
+        for i,p in enumerate(pieces):
+            pos[p[0]] = i
+        #used = set()    # 由于arr[i]互不相同,所以used其实没有用处
         n = len(arr)
-        while i < n:
-            if arr[i] not in firstNum:
-                return False
-            for p in firstNum[arr[i]]:
-                if p == arr[i]:
-                    i += 1
-                else:
-                    return False
-        return True
-        '''
         i = 0
-        n = len(arr)
         while i < n:
-            ind = -1
-            m = len(pieces)
-            for j in range(m):
-                if pieces[j][0] == arr[i]:
-                    ind = j
-                    break
-            else:
-                return False
-            if ind == -1:
-                return False
-            for b in pieces[j]:
-                if b == arr[i]:
-                    i += 1
-                else:
-                    return False
-            pieces.pop(ind)
-            #print(i,pieces)
+            if arr[i] in pos:   # 有以arr[i]为起始的pieces
+                #if pos[arr[i]] not in used: # 没有被使用
+                l = len(pieces[pos[arr[i]]])    # 这个pieces的长度
+                if arr[i:i + l] == pieces[pos[arr[i]]]: # arr接下来的几个字符和这个pieces一致：
+                    #used.add(pos[arr[i]])
+                    i += l
+                    continue
+            return False    # 任何一个不满足,则返回False
         return True
-        '''
+            

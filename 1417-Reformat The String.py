@@ -1,30 +1,26 @@
 class Solution:
     def reformat(self, s: str) -> str:
-        d = {'0','1','2','3','4','5','6','7','8','9'}
-        ans = ''
-        stackDigital = []
-        stackAlphabet = []
+        ans = []
+        stack = []
         for c in s:
-            if c in d:
-                stackDigital.append(c)
+            if ans and ans[-1].isalpha() == c.isalpha():
+                if stack and (ans[-1].isalpha() != stack[-1].isalpha()):
+                    ans.append(stack.pop())
+                    ans.append(c)
+                else:
+                    stack.append(c)
             else:
-                stackAlphabet.append(c)
-        if abs(len(stackDigital) - len(stackAlphabet)) <= 1:
-            ans = ''
-            if len(stackDigital) < len(stackAlphabet):
-                for i,d in enumerate(stackDigital):
-                    ans += stackAlphabet[i]
-                    ans += d
-                ans += stackAlphabet[-1]
-            elif len(stackDigital) > len(stackAlphabet):
-                for i,d in enumerate(stackAlphabet):
-                    ans += stackDigital[i]
-                    ans += d
-                ans += stackDigital[-1]
+                ans.append(c)
+            #print(ans,stack)
+        if stack:
+            if len(stack) == 1:
+                if stack[0].isalpha() != ans[-1].isalpha():
+                    ans.append(stack.pop())
+                    return ''.join(ans)
+                if stack[0].isalpha() != ans[0].isalpha():
+                    ans.insert(0,stack.pop())
+                    return ''.join(ans)
+                return ''
             else:
-                for i,d in enumerate(stackAlphabet):
-                    ans += stackDigital[i]
-                    ans += d
-            return ans
-        else:
-            return ''
+                return ''
+        return ''.join(ans)

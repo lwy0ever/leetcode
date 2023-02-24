@@ -1,5 +1,5 @@
 class Solution:
-    def makeLargestSpecial(self, S: str) -> str:
+    def makeLargestSpecial(self, s: str) -> str:
         '''
         首先分析一下，如果是满足题目要求的字符串，必然起始字符是"1"，结束字符是"0"
         首先将字符串进行分割，分割成满足条件的子串
@@ -21,23 +21,23 @@ class Solution:
             11100100
         5、由于数组中只有一个元素，排序连接直接返回本身
         '''
-
-        if S == '':
-            return ''
+        #print(s)
+        if len(s) <= 2:
+            return s
         
         cnt = 0
         start = 0
         specialStrs = []
         
-        n = len(S)
+        n = len(s)
         for i in range(n):
-            if S[i] == '1':
+            if s[i] == '1':
                 cnt += 1
-            if S[i] == '0':
+            if s[i] == '0':
                 cnt -= 1
-            if cnt == 0:
-                specialStrs.append('1' + self.makeLargestSpecial(S[start + 1:i]) + '0')
-                start = i + 1
-        #print(S,specialStrs)
+                if cnt == 0:
+                    specialStrs.append('1' + self.makeLargestSpecial(s[start + 1:i]) + '0')
+                    start = i + 1
+        #print(s,specialStrs)
 
         return ''.join(sorted(specialStrs,reverse = True))

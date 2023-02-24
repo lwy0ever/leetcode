@@ -1,25 +1,24 @@
 class Solution:
     def asteroidCollision(self, asteroids: List[int]) -> List[int]:
-        ans = []
-        stack = []  # stack[i] > 0
+        # 栈
+        ans = list()
         for a in asteroids:
+            addA = True
             if a < 0:
-                if not stack:
-                    ans.append(a)
-                else:
-                    while stack:
-                        if stack[-1] + a > 0:   # a will explode 
-                            break
-                        elif stack[-1] + a == 0:    # a and stack[-1] both will explode
-                            stack.pop()
+                while ans:
+                    if ans[-1] > 0:
+                        if ans[-1] + a < 0:
+                            ans.pop()
+                        elif ans[-1] + a == 0:
+                            ans.pop()
+                            addA = False
                             break
                         else:
-                            stack.pop()
-                    else:   # all stack[i] exploded,a is alive
-                        ans.append(a)
-            else:
-                stack.append(a)
-        for a in stack:
-            ans.append(a)
+                            addA = False
+                            break
+                    else:
+                        break
+            if addA:
+                ans.append(a)
+            #print(ans)
         return ans
-            

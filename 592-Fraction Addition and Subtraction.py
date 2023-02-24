@@ -24,7 +24,7 @@ class Solution:
         elif ans[1] == 0:
             ans[0] = 1
             ans[2] = 1
-        if ans[1] != 0 and ans[2] != 0:
+        if ans[1] != 0:
             m = gcd(abs(ans[1]),ans[2])
             ans[1] //= m
             ans[2] //= m

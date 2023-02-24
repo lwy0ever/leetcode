@@ -1,20 +1,22 @@
 class Solution:
     def uniqueLetterString(self, s: str) -> int:
-        # 记录每个字符出现的位置
-        # 分别考虑每个字符单独出现的子串个数
-        pos = [[] for _ in range(26)]
+        # 只有26个字母
+        # 考虑每个字母的贡献(设字符串总长度n)
+        # 某个字母在位置i
+        # 上次出现的位置为a(如果之前没有出现过,则a = -1)
+        # 下次出现的位置为b(如果之后没有出现过,则b = n)
+        # 则这个字母在位置i的贡献度为(i - a) * (b - i)
         n = len(s)
-        base = ord('A')
-        for i in range(n):
-            p = ord(s[i]) - base
-            pos[p].append(i)
-        #print(pos)
         ans = 0
-        for i in range(26):
-            p = [-1] + pos[i] + [n]
-            for j in range(1,len(p) - 1):
-                # 比如某个字符串...AXXXAXXA...,其中X表示非A的任意字符
-                # 其中的子串XXXAXX,包含A的子串,可以从0,1,2,3开始,到3,4,5结束(包含结束位置)
-                # 子串XXXAXX的包含A的子串数量 = (3 - (-1)) * (6 - 3) = 4 * 3
-                ans += (p[j] - p[j - 1]) * (p[j + 1] - p[j])
-        return ans % (10 ** 9 + 7)
+        pos = dict()
+        for i,c in enumerate(s):
+            if c not in pos:
+                pos[c] = [-1]
+            pos[c].append(i)
+        for k in pos.keys():
+            pos[k].append(n)
+            l = len(pos[k])
+            for i in range(l - 2):
+                ans += (pos[k][i + 1] - pos[k][i]) * (pos[k][i + 2] - pos[k][i + 1])
+        #print(pos)
+        return ans

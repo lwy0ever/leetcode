@@ -1,31 +1,34 @@
 class Solution:
     def balancedString(self, s: str) -> int:
-        d = collections.Counter()
-        for c in s:
-            d[c] += 1
-        n = len(s) // 4
-        for k in 'QWER':
-            d[k] -= n
-        d = +d
-        #print(d)
-        if len(d) == 0:
+        # 滑动窗口
+        # 如果s[l:r]满足条件,则cnt(s[:l] + s[r:])中任何一个字符的长度不应该大于n // 4
+        
+        # 滑动策略
+        # 从[l:l]开始滑动
+        # 如果[l:r]是第一个满足条件的,那么[l + 1:r - x]一定不满足条件
+        # 所以当左侧坐标是l + 1,右侧坐标一定大于等于r
+        n = len(s)
+        avg = n // 4
+        cnt = collections.Counter(s)
+
+        def check():
+            for v in cnt.values():
+                if v > avg:
+                    return False
+            return True
+        
+        if check():
             return 0
-        ap = collections.Counter()
-        ans = n * 4
-        l = 0
-        r = 1
-        ap[s[0]] = 1
-        while r <= n * 4:
-            #print(d,ap,l,r,+(d - ap))
-            if +(d - ap):
-                if r == n * 4:
-                    break
-                ap[s[r]] += 1
+
+        r = 0
+        ans = n
+        for l,c in enumerate(s):
+            while r < n and not check():
+                cnt[s[r]] -= 1
                 r += 1
-            else:
-                ans = min(ans,r - l)
-                ap[s[l]] -= 1
-                l += 1
-                if r < l:
-                    r = l
+            if not check():
+                break
+            ans = min(ans,r - l)
+            cnt[c] += 1
         return ans
+            

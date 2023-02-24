@@ -1,9 +1,8 @@
 class Solution:
-    def diffWaysToCompute(self, input: str) -> List[int]:
-        d = {}  # d[s]是一个数组,表示s可能的运算结果
-        #print(nums)
-        #print(ops)
-        
+    def diffWaysToCompute(self, expression: str) -> List[int]:
+        # d[s]是一个数组,表示s可能的运算结果
+        d = {}
+
         def compute(s):
             if s.isdigit():
                 return [int(s)]
@@ -17,13 +16,14 @@ class Solution:
                     right = compute(s[i + 1:])
                     for l in left:
                         for r in right:
-                            if c == '+':
-                                ans.append(l + r)
-                            elif c == '-':
-                                ans.append(l - r)
-                            elif c == '*':
-                                ans.append(l * r)
+                            match c:
+                                case '+':
+                                    ans.append(l + r)
+                                case '-':
+                                    ans.append(l - r)
+                                case '*':
+                                    ans.append(l * r)
             d[s] = ans
             return ans
         
-        return compute(input)
+        return compute(expression)

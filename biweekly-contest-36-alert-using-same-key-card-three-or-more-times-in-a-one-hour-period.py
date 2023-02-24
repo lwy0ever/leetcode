@@ -1,5 +1,6 @@
 class Solution:
     def alertNames(self, keyName: List[str], keyTime: List[str]) -> List[str]:
+        # 3次打卡,也就是排序后,n - 2和n之间的差<=60
         n = len(keyName)
         nameTime = collections.defaultdict(list)
         for i in range(n):

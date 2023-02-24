@@ -1,14 +1,23 @@
 class Solution:
-    def oddCells(self, n: int, m: int, indices: List[List[int]]) -> int:
-        s = [[0] * m for _ in range(n)]
+    def oddCells(self, m: int, n: int, indices: List[List[int]]) -> int:
+        # 方法2:计数优化
+        maskM = [0] * m # 记录每行被改变的次数
+        maskN = [0] * n # 记录每列被改变的次数
         for r,c in indices:
-            for i in range(m):
-                s[r][i] += 1
-            for i in range(n):
-                s[i][c] += 1
+            maskM[r] ^= 1
+            maskN[c] ^= 1
+        row = sum(maskM)
+        col = sum(maskN)
+        return row * (n - col) + col * (m - row)
+        
+        # 方法1:
+        maskM = [0] * m # 记录每行被改变的次数
+        maskN = [0] * n # 记录每列被改变的次数
+        for r,c in indices:
+            maskM[r] += 1
+            maskN[c] += 1
         ans = 0
-        for i in range(n):
-            for j in range(m):
-                if s[i][j] & 1 == 1:
-                    ans += 1
+        for r in maskM:
+            for c in maskN:
+                ans += ((r + c) & 1)
         return ans
